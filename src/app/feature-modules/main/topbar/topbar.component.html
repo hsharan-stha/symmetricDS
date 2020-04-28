@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <a class="navbar-brand" routerLink="/main/manage/nodes">
+        <logo></logo>
+    </a>
+
+    <button (click)="toggle()" class="navbar-toggler" type="button" data-toggle="collapse"
+            aria-controls="navbarNav" [attr.aria-expanded]="toggled" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link  btn-radius-left" routerLink="/main/manage" routerLinkActive="active">Manage</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link btn-radius-right" routerLink="/main/configure" routerLinkActive="active">Configure</a>
+        </li>
+    </ul>
+
+    <ul class="nav justify-content-end">
+        <li>
+            <span class="mr-2 btn-error"
+                  (click)="getErrorMessage()">{{countError}}</span>
+        </li>
+        <li class="nav-item mr-4">
+            <span class="mr-2">Node :</span> <span>{{node}}</span>
+        </li>
+        <li class="nav-item">
+            <div class="dropdown" ngbDropdown placement="bottom-right">
+                <button ngbDropdownToggle class="dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ username }}
+                    <i class="fa fa-angle-down"></i>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+                    <a ngbDropdownItem class="cursor-pointer" (click)="logout()">Logout</a>
+                </div>
+
+            </div>
+        </li>
+    </ul>
+</nav>
+
+<div *ngIf="showMessagesDialog" id="error-messages">
+    <app-show-messages [showDialog]="showMessagesDialog" (close)="closeDialog($event)"
+                       [loader]="loader"></app-show-messages>
+</div>

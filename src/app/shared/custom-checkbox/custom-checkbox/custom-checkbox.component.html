@@ -1,0 +1,4 @@
+<div class="custom-control custom-checkbox" [formGroup]="groupName">
+    <input (change)="onChange($event)"  [formControlName]="name" type="checkbox" class="custom-control-input" [id]="formId">
+    <label class="custom-control-label" [for]="formId">{{ label }}</label>
+</div>

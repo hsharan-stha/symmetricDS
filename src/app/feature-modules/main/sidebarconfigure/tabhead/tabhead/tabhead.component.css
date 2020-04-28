@@ -1,0 +1,15 @@
+.nav-item .nav-link {
+    padding: 5px 10px;
+    color: #0072c6;
+    font-size: 13px;
+    border-color: #d8d8d8 #d8d8d8 #fff !important;
+}
+
+.nav-item .nav-link i {
+    font-size: 10px;
+    color: #0072c6;
+}
+
+.nav-item .nav-link span {
+    margin-left: 5px;
+}

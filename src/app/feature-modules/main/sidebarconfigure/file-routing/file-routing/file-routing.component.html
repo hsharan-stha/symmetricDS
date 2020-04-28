@@ -1,0 +1,31 @@
+<body-title text="Configure File Routing"></body-title>
+<div class="col-lg-12 p-0">
+    <app-tabhead text="File Triggers"></app-tabhead>
+    <div class="config-body" id="file_routing">
+        <app-buttonbar [createpath]="createpath" [editpath]="editpath" [deletepath]="deletepath"
+                       [selectedId]="selectedID"
+                       [buttonClass]="buttonDisabledClass"
+                       (searchBoxData)="search($event)"></app-buttonbar>
+
+        <router-outlet></router-outlet>
+
+        <div class="p-3">
+            <data-list [columnsList]="columnsList"
+                       [table_loader]="table_loader"
+                       [pagination]="pagination"
+                       [datas]="fileRoutingTableData"
+                       [filterField]="filterField"
+                       (sortOrder)="sortEvent($event)"
+                       (selectedRow)="rowClick($event)"
+                       (page)="pageNumber($event)"
+                       [filterText]="subText"></data-list>
+        </div>
+
+    </div>
+</div>
+
+
+<app-messagebox [message]="message"></app-messagebox>
+
+
+

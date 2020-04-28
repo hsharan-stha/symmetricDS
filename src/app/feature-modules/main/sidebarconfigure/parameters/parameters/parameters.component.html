@@ -1,0 +1,68 @@
+<body-title text="Configure Parameters"></body-title>
+<div class="col-12 p-0">
+
+    <app-tabhead text="Parameters"></app-tabhead>
+
+    <router-outlet></router-outlet>
+
+    <div class="config-body">
+
+        <div class="d-flex" style="padding:10px 0px 10px 0px;">
+            <div class="col-12 col-md-12 col-lg-10">
+                <form [formGroup]="parameterFilterForm">
+                    <div class="form-row">
+                        <div class="col-1 col-lg-1 col-md-2">
+                            <button [disabled]="editDisable || disableE" type="button" [routerLink]="editPath"
+                                    mat-stroked-button>Edit
+                            </button>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-2">
+                            <div class="form-group">
+
+                                <select-with-loading
+                                        [groupName]="parameterFilterForm"
+                                        controlName="target_nodes"
+                                        label="Select Target Nodes"
+                                        [datas]="nodeGroupIds"
+                                ></select-with-loading>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-2">
+                            <div class="form-group">
+                                <input formControlName="categories" type="email" class="form-control form-control-sm"
+                                       id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Categories">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-12 col-lg-4">
+                            <custom-checkbox formId="areSet" label="Show only parameters that have been set"
+                                             name="areSet" [groupName]="parameterFilterForm"></custom-checkbox>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-2 col-md-12 col-12">
+                <div class="float-md-right" style="width:180px;">
+                    <searchbox (searchText)="searchValue($event)"></searchbox>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="parameters" class="pl-3 pr-3">
+            <data-list
+                    [displayedColumns]="colsList"
+                    [columnsList]="totalColsList"
+                    [table_loader]="table_loader"
+                    [datas]="parameterData"
+                    [filterText]="subText"
+                    [filterField]="filterField"
+                    (selectedRow)="rowSelected($event)"
+                    (sortOrder)="sortEvent($event)"
+                    (page)="pageNumber($event)"
+            ></data-list>
+        </div>
+    </div>
+</div>

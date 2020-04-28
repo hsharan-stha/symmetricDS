@@ -1,0 +1,23 @@
+<div>
+    <div class="bg-hider"></div>
+
+    <div class="confirm-box" [style.width]="containerWidth">
+
+        <div class="card ">
+            <div class="card-header">
+                {{ title }}
+            </div>
+            <div class="card-body">
+                {{ body }}
+                <hr/>
+                <div class="">
+                    <div class="pull-right ofr-svg">
+                        <app-loader *ngIf="loader"></app-loader>
+                        <button class="mr-2" mat-stroked-button [disabled]="loader" (click)="confirmBtnClick()">Delete</button>
+                        <button type="button" mat-stroked-button [disabled]="loader" (click)="cancelBtnClick()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

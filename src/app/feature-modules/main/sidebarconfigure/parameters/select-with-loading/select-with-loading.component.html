@@ -1,0 +1,23 @@
+<div [formGroup]="groupName" >
+    <select [id]="controlName"
+            *ngIf="datas; else loadingBlock "
+            class="form-control form-control-sm select-with-bg"
+            [formControlName]="controlName">
+        <option value="null" disabled="true" [selected]="true">{{ label }}</option>
+
+        <!--<option value="">{{ label }}</option>-->
+        <option *ngFor="let data of datas" [attr.value]="data.name"> {{  data.name  }}</option>
+    </select>
+</div>
+
+<ng-template #loadingBlock>
+    <div class="position-relative">
+        <select disabled class="form-control form-control-sm  loading-select">
+            <option selected> Loading...</option>
+        </select>
+
+        <div class="loader loader--style1" title="0">
+            <app-loader></app-loader>
+        </div>
+    </div>
+</ng-template>

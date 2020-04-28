@@ -1,0 +1,52 @@
+<c-dialog dialogWidth="900px" text="Group" [action]="button_name" [visible]="showDialog">
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <!--(visibleChange)="visible($event)"-->
+    <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+            <label for="node_group_id" class="col-sm-2 col-12 col-form-label pr-0">Group Id<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-5 col-12">
+                <input [attr.disabled]="disabledTextBox" type="text" formControlName="node_group_id"
+                       class="form-control form-control-sm" id="node_group_id"
+                       autocomplete="off"
+                       [ngClass]="{ 'is-invalid': submitted &&  (field.node_group_id.errors?.required || field.node_group_id.errors?.maxlength || field.node_group_id.errors?.pattern)}">
+
+                <div *ngIf="submitted && field.node_group_id.errors?.required">
+                    <small class="text-danger m-0 text-sm">Group ID is required</small>
+                    <br/>
+                </div>
+                <div *ngIf="submitted && field.node_group_id.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 50 characters.</small>
+                </div>
+                <div *ngIf="submitted && field.node_group_id.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Za-z0-9_]</small>
+                </div>
+            </div>
+
+        </div>
+        <!-- {{ groupForm.controls["group_id"].errors | json }} -->
+        <div class="form-group row">
+            <label for="description" class="col-sm-2 col-12 col-form-label pr-0">Description</label>
+            <div class="col-sm-10 col-12">
+                            <textarea rows="5" name="description" formControlName="description"
+                                      class="form-control form-control-sm resize-disable"
+                                      id="description"></textarea>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="float-right ofr-svg">
+                <app-loader *ngIf="loader"></app-loader>
+                <button type="submit" class="mr-2" mat-stroked-button>{{button_name}}
+                </button>
+                <a [routerLink]="'/main/configure/groups'">
+                    <button type="button" mat-stroked-button>Cancel</button>
+                </a>
+            </div>
+        </div>
+    </form>
+
+</c-dialog>
+

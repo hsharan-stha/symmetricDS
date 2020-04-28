@@ -1,0 +1,234 @@
+<c-dialog text="Routers" [action]="buttonValue" dialogWidth="900px" [visible]="showCreateForm">
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="routersForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+            <label for="group-id" class="col-sm-3 col-form-label pr-0">
+                Router Id
+                <small class="mandataory-icon">*</small>
+            </label>
+            <div class="col-sm-4">
+                <input id="group-id" formControlName="router_id" type="text" class="form-control form-control-sm"
+                       [ngClass]="{'is-invalid': isSubmitted && field.router_id.errors}"
+                />
+                <div *ngIf="isSubmitted && field.router_id.errors">
+
+                    <small *ngIf="field.router_id.errors.required"
+                           class="text text-danger">{{ "Router id is required" }}</small>
+
+                    <small *ngIf="field.router_id.errors.maxlength"
+                           class="text text-danger">{{ "Can contain max of 50 characters only" }}</small>
+
+                    <small *ngIf="field.router_id.errors.pattern"
+                           class="text text-danger">{{ "Allowed characters are [A-Z_a-z0-9-]{3,50}" }}</small>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="source_node_group_id" class="col-sm-3 col-form-label pr-0">
+                Source node Group Id
+                <small class="mandataory-icon">*</small>
+            </label>
+            <div class="col-sm-4">
+
+                <select
+                        *ngIf="sourceGroupIds; else loadingBlock "
+                        id="source_node_group_id" formControlName="source_node_group_id"
+                        class="form-control form-control-sm select-with-bg"
+                        [ngClass]="{'is-invalid':isSubmitted && field.source_node_group_id.errors}">
+                    <option value="">Select Source Group Id</option>
+                    <option *ngFor="let sourceGroupId of sourceGroupIds"
+                    [ngValue]="sourceGroupId.source_node_group_id" >{{ sourceGroupId.source_node_group_id }}</option>
+                </select>
+
+                <div *ngIf="isSubmitted && field.source_node_group_id.errors">
+
+                    <small *ngIf="field.source_node_group_id.errors.required"
+                           class="text text-danger">{{ "Source node group id is required" }}</small>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="target_node_group_id" class="col-sm-3 col-form-label pr-0">
+                Tareget node Group Id
+                <small class="mandataory-icon">*</small>
+            </label>
+            <div class="col-sm-4">
+
+                <select id="target_node_group_id" formControlName="target_node_group_id"
+                        class="form-control form-control-sm select-with-bg"
+                        [ngClass]="{'is-invalid':isSubmitted && field.target_node_group_id.errors}">
+                    <option value="">Select Target Group Id</option>
+
+                    <ng-template [ngIf]="targetGroupId">
+                        <option *ngFor="let target of targetGroupId"
+                        [ngValue]="target.target_node_group_id" 
+                        > {{ target.target_node_group_id  }}</option>
+                    </ng-template>
+                </select>
+
+                <div *ngIf="isSubmitted && field.target_node_group_id.errors">
+                    <small *ngIf="field.target_node_group_id.errors.required" class="text text-danger">{{ "Target group id is required" }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="router-type" class="col-sm-3 col-form-label pr-0">
+                Router Type
+                <small class="mandataory-icon">*</small>
+            </label>
+            <div class="col-sm-4">
+
+                <select id="router-type" formControlName="router_type"
+                        class="form-control form-control-sm select-with-bg"
+                        [ngClass]="{'is-invalid':isSubmitted && field.router_type.errors}">
+
+                    <option *ngFor="let type of routerType" value="{{ type.name }}">{{ type.name }}</option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="router-expression" class="col-sm-3 col-form-label pr-0">
+                Router Expression
+            </label>
+            <div class="col-sm-8">
+                <textarea formControlName="router_expression" id="router-expression"
+                          class="form-control form-control-sm resize-disable" rows="5"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+
+                <custom-checkbox (valueChanges)="sourceCatalogChange()" formId="use-source-catalog"
+                                 label="Use Source Catalog/Schema" name="source_catalog"
+                                 [groupName]="routersForm"></custom-checkbox>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="target-catalog" class="col-sm-3 col-form-label pr-0">
+                Target Catalog
+            </label>
+            <div class="col-sm-4">
+                <input formControlName="target_catalog" id="target-catalog" type="text"
+                       class="form-control form-control-sm"
+                       [ngClass]="{'is-invalid': isSubmitted && field.target_catalog.errors}"
+                />
+
+                <div *ngIf="isSubmitted && field.target_catalog.errors">
+
+                    <small *ngIf="field.target_catalog.errors.pattern"
+                           class="text text-danger">{{ "Allowed characters are A-Z and _" }}</small>
+
+                    <small *ngIf="field.target_catalog.errors.maxlength"
+                           class="text text-danger">{{ "Can contain max of 255 characters only" }}</small>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="target-schema" class="col-sm-3 col-form-label pr-0">
+                Target Schema
+            </label>
+            <div class="col-sm-4">
+                <input formControlName="target_schema" id="target-schema" type="text"
+                       class="form-control form-control-sm"
+                       [ngClass]="{'is-invalid': isSubmitted && field.target_schema.errors}"
+
+                />
+
+                <div *ngIf="isSubmitted && field.target_schema.errors">
+
+                    <small *ngIf="field.target_schema.errors.pattern"
+                           class="text text-danger">{{ "Allowed characters are A-Z and _" }}</small>
+
+                    <small *ngIf="field.target_schema.errors.maxlength"
+                           class="text text-danger">{{ "Can contain max of 255 characters only" }}</small>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="target-table" class="col-sm-3 col-form-label pr-0">
+                Target Table
+            </label>
+            <div class="col-sm-4">
+                <input formControlName="target_table" id="target-table" type="text" class="form-control form-control-sm"
+                       [ngClass]="{'is-invalid': isSubmitted && field.target_table.errors}"
+                />
+
+                <div *ngIf="isSubmitted && field.target_table.errors">
+
+                    <small *ngIf="field.target_table.errors.pattern"
+                           class="text text-danger">{{ "Allowed characters are A-Z and _" }}</small>
+
+                    <small *ngIf="field.target_table.errors.maxlength"
+                           class="text text-danger">{{ "Can contain max of 255 characters only" }}</small>
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+
+                <custom-checkbox formId="sync-on-update" label="Sync on Update" name="sync_on_update"
+                                 [groupName]="routersForm"></custom-checkbox>
+
+                <custom-checkbox formId="sync-on-insert" label="Sync on Insert" name="sync_on_insert"
+                                 [groupName]="routersForm"></custom-checkbox>
+
+                <custom-checkbox formId="sync-on-delete" label="Sync on Delete" name="sync_on_delete"
+                                 [groupName]="routersForm"></custom-checkbox>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-3"></div>
+            <div class="col-8">
+                <div class="float-right">
+                    <button type="submit" class="mr-2" mat-stroked-button>
+                        {{ buttonValue }}
+                        <app-loader *ngIf="loader"></app-loader>
+                    </button>
+                    <button type="button" (click)="onCancel()" mat-stroked-button>Cancel</button>
+                </div>
+            </div>
+
+            <div class="col-6"></div>
+        </div>
+
+    </form>
+
+
+    <ng-template #loadingBlock>
+        <div class="position-relative">
+            <select disabled class="form-control form-control-sm  loading-select">
+                <option selected> Loading...</option>
+            </select>
+
+            <div class="loader loader--style1" title="0">
+                <app-loader></app-loader>
+            </div>
+        </div>
+    </ng-template>
+</c-dialog>

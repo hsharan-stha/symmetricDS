@@ -1,0 +1,29 @@
+<div *ngIf="visibleStep1">
+    <h5>Where will the data be going?</h5>
+    <form [formGroup]="groupName" id="loadDataForm" [ngClass]="disabledRadio?'disableRadio':''">
+        <input type="hidden" class="form-control form-control-sm" [(ngModel)]="target_node"
+               formControlName="target_node_id"/>
+        <input type="hidden" class="form-control form-control-sm" [(ngModel)]="source_node"
+               formControlName="source_node_id"/>
+        <label>The server node will,</label>
+        <div class="radio">
+            <label><input name="step_one_radio" (click)="action(1)" type="radio" [checked]="checkedRadio===1">send data
+                to</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" (click)="action(0)" name="step_one_radio" [checked]="checkedRadio===0">receive
+                data from</label>
+        </div>
+    </form>
+
+    <div class="col-12" id="step-one">
+        <data-list [columnsList]="columnsList"
+                   [table_loader]="table_loader"
+                   [datas_load_data]="nodesData"
+                   [selectedNodeID]="selectedNodeId"
+                   [isMoreDataExists]="isMoreDataExists"
+                   (sortOrder)="sortEvent($event)"
+                   (selectedRow)="rowClick($event)"
+                   (page)="pageNumber($event)"></data-list>
+    </div>
+</div>

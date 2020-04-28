@@ -1,0 +1,28 @@
+form {
+    margin-top: 35px;
+}
+
+.d2-title {
+    margin: 1% 0px 6px 0%;
+}
+
+/*select{*/
+/*-moz-appearance:none; !* Firefox *!*/
+/*-webkit-appearance:none; !* Safari and Chrome *!*/
+/*appearance:none;*/
+/*}*/
+
+i {
+    padding: 5px 5px 5px 15px;
+    position: absolute;
+    top: 0px;
+    right: 26px;
+    font-size: 21px;
+    border-left: solid 1px #b2b2b2;
+}
+
+.loader {
+    position: absolute;
+    top: 0px;
+    right: 19px;
+}

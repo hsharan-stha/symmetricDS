@@ -1,0 +1,262 @@
+<c-dialog dialogWidth="80%" text="Transform table" [action]="button_name" [visible]="showDialog">
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="transformTableForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+            <label for="transform_id" class="col-sm-3 col-form-label pr-0">Transform id
+                <small class="mandataory-icon">*</small>
+            </label>
+            <div class="col-sm-3">
+                <input [attr.disabled]="disabledTextBox" type="text" class="form-control form-control-sm"
+                       id="transform_id" formControlName="transform_id"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.transform_id.errors?.required || field.transform_id.errors?.maxlength || field.transform_id.errors?.pattern)}">
+                <div *ngIf="isSubmitted && field.transform_id.errors?.required">
+                    <small class="text-danger m-0 text-sm">Trigger ID is required</small>
+                    <br/>
+                </div>
+                <div *ngIf="isSubmitted && field.transform_id.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 128 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.transform_id.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Z_a-z0-9-]</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="source_node_group_id" class="col-sm-3 col-form-label pr-0">
+                Source node Group Id<small class="mandataory-icon">*</small>
+            </label>
+            <div class="col-sm-4">
+
+                <select [attr.disabled]="disabledTextBox"
+                        id="source_node_group_id" formControlName="source_node_group_id"
+                        class="form-control form-control-sm select-with-bg"
+                        [ngClass]="{'is-invalid':isSubmitted && field.source_node_group_id.errors}">
+                    <option value="null" disabled="true" [selected]="true">Select Source Group Id</option>
+                    <option *ngFor="let sourceGroupId of sourceGroupIds"
+                            [attr.value]="sourceGroupId.source_node_group_id">{{ sourceGroupId.source_node_group_id }}</option>
+                </select>
+
+                <div *ngIf="isSubmitted && field.source_node_group_id.errors">
+
+                    <small *ngIf="field.source_node_group_id.errors.required"
+                           class="text text-danger">{{ "Source node group id is required" }}</small>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="target_node_group_id" class="col-sm-3 col-form-label pr-0">
+                Target node Group Id<small class="mandataory-icon">*</small>
+            </label>
+            <div class="col-sm-4">
+
+                <select [attr.disabled]="disabledTextBox" id="target_node_group_id"
+                        formControlName="target_node_group_id"
+                        class="form-control form-control-sm select-with-bg"
+                        [ngClass]="{'is-invalid':isSubmitted && field.target_node_group_id.errors}">
+                    <option value="null" disabled="true" [selected]="true">Select Target Group Id</option>
+                    <ng-template [ngIf]="targetGroupId">
+                        <option *ngFor="let target of targetGroupId"
+                                [value]="target.target_node_group_id"> {{ target.target_node_group_id  }}</option>
+                    </ng-template>
+                </select>
+
+                <div *ngIf="isSubmitted && field.target_node_group_id.errors">
+                    <small *ngIf="field.target_node_group_id.errors.required"
+                           class="text text-danger">{{ "Target group id is required" }}</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="transform_point" class="col-sm-3 col-form-label pr-0">Transform point</label>
+            <div class="col-sm-4">
+                <select class="form-control form-control-sm channels-form" id="transform_point"
+                        formControlName="transform_point" 
+                        [ngClass]="{'is-invalid' : isSubmitted && (  field.transform_point.errors?.required)}" >
+                    <option value="null" disabled="true" [selected]="true">Select transform point</option>
+                    <option *ngFor="let d of transformPoint" [attr.value]="d.id">{{d.value}}</option>
+                </select>
+                <div *ngIf="isSubmitted && field.transform_point.errors?.required">
+                    <small class="text-danger m-0 text-sm">Transform point is required.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="source_catalog_name" class="col-sm-3 col-form-label pr-0">Source catalog name<small class="mandataory-icon">*</small>
+            </label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm"
+                       id="source_catalog_name" formControlName="source_catalog_name"
+                       [ngClass]="{'is-invalid' : isSubmitted && (  field.source_catalog_name.errors?.pattern)}">
+                
+                <div *ngIf="isSubmitted && field.source_catalog_name.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Z_a-z0-9-]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="source_schema_name" class="col-sm-3 col-form-label pr-0">Source schema name<small class="mandataory-icon">*</small>
+            </label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm"
+                       id="source_schema_name" formControlName="source_schema_name"
+                       [ngClass]="{'is-invalid' : isSubmitted && (  field.source_schema_name.errors?.pattern)}">
+               
+                <div *ngIf="isSubmitted && field.source_schema_name.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Z_a-z0-9-]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="source_table_name" class="col-sm-3 col-form-label pr-0">Source table name<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm"
+                       id="source_table_name" formControlName="source_table_name"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.source_table_name.errors?.required || field.source_table_name.errors?.pattern)}">
+                <div *ngIf="isSubmitted && field.source_table_name.errors?.required">
+                    <small class="text-danger m-0 text-sm">Source table name is required</small>
+                    <br/>
+                </div>
+                <div *ngIf="isSubmitted && field.source_table_name.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Z_a-z0-9-]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="target_catalog_name" class="col-sm-3 col-form-label pr-0">Target catalog name<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm"
+                       id="target_catalog_name" formControlName="target_catalog_name"
+                       [ngClass]="{'is-invalid' : isSubmitted && (  field.target_catalog_name.errors?.pattern)}">
+                
+                <div *ngIf="isSubmitted && field.target_catalog_name.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Z_a-z0-9-]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="target_schema_name" class="col-sm-3 col-form-label pr-0">Target schema name<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm"
+                       id="target_schema_name" formControlName="target_schema_name"
+                       [ngClass]="{'is-invalid' : isSubmitted && (  field.target_schema_name.errors?.pattern)}">
+                 
+                <div *ngIf="isSubmitted && field.target_schema_name.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Z_a-z0-9-]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="target_table_name" class="col-sm-3 col-form-label pr-0">Target table name<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm"
+                       id="target_table_name" formControlName="target_table_name"
+                       [ngClass]="{'is-invalid' : isSubmitted && ( field.target_table_name.errors?.pattern)}">
+                
+                <div *ngIf="isSubmitted && field.target_table_name.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Z_a-z0-9-]</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+                <custom-checkbox formId="update_first" label="Update first" name="update_first"
+                                 [groupName]="transformTableForm"></custom-checkbox>
+
+            </div>
+        </div>
+        <div class="form-group row" style="margin-top: 5px !important;">
+            <label for="update_action" class="col-sm-3 col-form-label pr-0">Update action<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-4">
+                <select class="form-control form-control-sm channels-form" id="update_action"
+                        formControlName="update_action"
+                        [ngClass]="{'is-invalid' : isSubmitted && (field.update_action.errors?.required)}">
+                    <option value="null" disabled="true" [selected]="true">Select update action</option>
+                    <option *ngFor="let d of updateAction" [attr.value]="d.id">{{d.value}}</option>
+                </select>
+
+                <div *ngIf="isSubmitted && field.update_action.errors?.required">
+                    <small class="text-danger m-0 text-sm">Update action is required</small>
+                    <br/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="delete_action" class="col-sm-3 col-form-label pr-0">Delete action</label>
+            <div class="col-sm-4">
+                <select class="form-control form-control-sm channels-form" id="delete_action"
+                        formControlName="delete_action"
+                        [ngClass]="{'is-invalid' : isSubmitted && (field.delete_action.errors)}">
+                    <option *ngFor="let d of deleteAction" [attr.value]="d.id">{{d.value}}</option>
+                </select>
+
+                <div *ngIf="isSubmitted && field.delete_action.errors?.required">
+                    <small class="text-danger m-0 text-sm">Delete action is required</small>
+                    <br/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="transform_order" class="col-sm-3 col-form-label pr-0">Transform order<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm"
+                       id="transform_order" formControlName="transform_order"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.transform_order.errors?.required || field.transform_order.errors?.pattern)}">
+                <div *ngIf="isSubmitted && field.transform_order.errors?.required">
+                    <small class="text-danger m-0 text-sm">Transform order is required</small>
+                    <br/>
+                </div>
+
+                <div *ngIf="isSubmitted && field.transform_order.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [0-9]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="column_policy" class="col-sm-3 col-form-label pr-0">Column policy</label>
+            <div class="col-sm-4">
+                <select class="form-control form-control-sm channels-form" id="column_policy"
+                        formControlName="column_policy" 
+                        [ngClass]="{'is-invalid' : isSubmitted && (field.column_policy.errors)}">
+                    <option *ngFor="let d of columnPolicy" [attr.value]="d.id">{{d.value}}</option>
+                </select>
+
+                <div *ngIf="isSubmitted && field.column_policy.errors?.required">
+                    <small class="text-danger m-0 text-sm">Column policy  is required</small>
+                    <br/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="description" class="col-sm-3 col-form-label pr-0">Description</label>
+            <div class="col-sm-5">
+                            <textarea rows="5" name="description" formControlName="description"
+                                      class="form-control form-control-sm resize-disable"
+                                      id="description"></textarea>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-8 float-right mt-3 ofr-svg">
+                <app-loader *ngIf="loader"></app-loader>
+                <button type="submit" class="mr-2" mat-stroked-button>{{button_name}}</button>
+                <button (click)="onCancel()" type="button" mat-stroked-button>Cancel</button>
+                <!--</a>-->
+            </div>
+        </div>
+    </form>
+
+
+    <div *ngIf="selectLoader" class="select-loader" title="0">
+        <app-loader></app-loader>
+    </div>
+
+</c-dialog>

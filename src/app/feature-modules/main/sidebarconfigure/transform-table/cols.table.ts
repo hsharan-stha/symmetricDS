@@ -1,0 +1,22 @@
+export let columnsList = [
+    {name: 'Transform id', property: "transform_id"},
+    {name: 'Source node group id', property: "source_node_group_id"},
+    {name: 'Target node group id', property: "target_node_group_id"},
+    {name: 'Transform point', property: "transform_point"},
+    {name: 'Source catalog name', property: "source_catalog_name"},
+    {name: 'Source schema name', property: "source_schema_name"},
+    {name: 'Source table name', property: "source_table_name"},
+    {name: 'Target catalog name', property: "target_catalog_name"},
+    {name: 'Target schema name', property: "target_schema_name"},
+    {name: 'Target table name', property: "target_table_name"},
+    {name: 'Update first', property: "update_first"},
+    {name: 'Update action', property: "update_action"},
+    {name: 'Delete action', property: "delete_action"},
+    {name: 'Transform order', property: "transform_order"},
+    {name: 'Column policy', property: "column_policy"},
+    {name: 'Last update', property: "last_update_time"},
+    {name: 'last update by', property: "last_update_by"},
+    {name: 'Created', property: "create_time"},
+    {name: 'Description', property: "description"},
+];
+

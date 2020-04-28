@@ -1,0 +1,252 @@
+<c-dialog dialogWidth="1056px" text="Table Triggers" [action]="button_name" [visible]="showDialog">
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="tableTriggerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+            <label for="trigger_id" class="col-sm-3 col-form-label pr-0">Trigger Id<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input [attr.disabled]="disabledTextBox" type="text" class="form-control form-control-sm"
+                       id="trigger_id" formControlName="trigger_id"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.trigger_id.errors?.required || field.trigger_id.errors?.maxlength || field.trigger_id.errors?.pattern)}">
+                <div *ngIf="isSubmitted && field.trigger_id.errors?.required">
+                    <small class="text-danger m-0 text-sm">Trigger id is required</small>
+                    <br/>
+                </div>
+                <div *ngIf="isSubmitted && field.trigger_id.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 128 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.trigger_id.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Za-z0-9_]</small>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label for="source_catalog_name" class="col-sm-3 col-form-label pr-0">Source catalog</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="source_catalog_name"
+                       formControlName="source_catalog_name"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.source_catalog_name.errors?.maxLength || field.source_catalog_name.errors?.pattern)}">
+                <div *ngIf="isSubmitted && field.source_catalog_name.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 255 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.source_catalog_name.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Za-z0-9_]</small>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label for="source_schema_name" class="col-sm-3 col-form-label pr-0">Source schema</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="source_schema_name"
+                       formControlName="source_schema_name"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.source_schema_name.errors?.maxLength || field.source_schema_name.errors?.pattern) }">
+                <div *ngIf="isSubmitted && field.source_schema_name.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 255 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.source_schema_name.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Za-z0-9_]</small>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label for="source_table_name" class="col-sm-3 col-form-label pr-0">Source table<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="source_table_name"
+                       formControlName="source_table_name"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.source_table_name.errors?.required || field.source_table_name.errors?.maxlength || field.source_table_name.errors?.pattern) }">
+                <div *ngIf="isSubmitted && field.source_table_name.errors?.required">
+                    <small class="text-danger m-0 text-sm">Source table is required</small>
+                </div>
+                <div *ngIf="isSubmitted && field.source_table_name.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 255 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.source_table_name.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Za-z0-9_]</small>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label for="channel_id" class="col-sm-3 col-form-label pr-0">Channel<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-5">
+                <select class="form-control form-control-sm channels-form" id="channel_id"
+                        formControlName="channel_id"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.channel_id.errors }">
+                    <option>choose channel id</option>
+                    <ng-template [ngIf]="channels_data">
+                        <option *ngFor="let d of channels_data" [attr.value]="d.name">{{d.name}}</option>
+                    </ng-template>
+                </select>
+                <div *ngIf="isSubmitted && field.channel_id.errors">
+                    <small class="text-danger m-0 text-sm">Channel is required</small>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row" style="margin-bottom: 10px !important; ">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+                <custom-checkbox formId="sync_on_insert" label="Sync on insert" name="sync_on_insert"
+                                 [groupName]="tableTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="sync_on_update" label="Sync on update" name="sync_on_update"
+                                 [groupName]="tableTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="sync_on_delete" label="Sync on delete" name="sync_on_delete"
+                                 [groupName]="tableTriggerForm"></custom-checkbox>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="reload_channel_id" class="col-sm-3 col-form-label pr-0">Reload channel id<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-5">
+                <select class="form-control form-control-sm channels-form" id="reload_channel_id"
+                        formControlName="reload_channel_id"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.reload_channel_id.errors }">
+                    <option>Choose reload channel id</option>
+                    <ng-template [ngIf]="reload_channels_data">
+                        <option *ngFor="let d of reload_channels_data" [attr.value]="d">{{d}}</option>
+                    </ng-template>
+
+                </select>
+                <div *ngIf="isSubmitted && field.reload_channel_id.errors">
+                    <small class="text-danger m-0 text-sm">Reload channel id is required</small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <label for="sync_on_insert_condition" class="col-sm-3 col-form-label pr-0">Sync on insert condition</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="sync_on_insert_condition"
+                       formControlName="sync_on_insert_condition"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.sync_on_insert_condition.errors }">
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="sync_on_update_condition" class="col-sm-3 col-form-label pr-0">Sync on update condition</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="sync_on_update_condition"
+                       formControlName="sync_on_update_condition"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.sync_on_update_condition.errors }">
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="sync_on_delete_condition" class="col-sm-3 col-form-label pr-0">Sync on delete condition</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="sync_on_delete_condition"
+                       formControlName="sync_on_delete_condition"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.sync_on_delete_condition.errors }">
+
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label for="custom_on_insert_text" class="col-sm-3 col-form-label pr-0">Custom insert trigger
+                text</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="custom_on_insert_text"
+                       formControlName="custom_on_insert_text"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.custom_on_insert_text.errors }">
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="custom_on_update_text" class="col-sm-3 col-form-label pr-0">Custom update trigger
+                text</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="custom_on_update_text"
+                       formControlName="custom_on_update_text"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.custom_on_update_text.errors }">
+
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label for="custom_on_delete_text" class="col-sm-3 col-form-label pr-0">Custom delete trigger
+                text</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="custom_on_delete_text"
+                       formControlName="custom_on_delete_text"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.custom_on_delete_text.errors }">
+
+            </div>
+
+        </div>
+        <div class="form-group row" style="margin-bottom: 10px !important; ">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+                <custom-checkbox formId="sync_on_incoming_batch" label="Sync on incoming" name="sync_on_incoming_batch"
+                                 [groupName]="tableTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="use_stream_lobs" label="Stream lobs" name="use_stream_lobs"
+                                 [groupName]="tableTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="use_capture_lobs" label="Capture lobs" name="use_capture_lobs"
+                                 [groupName]="tableTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="use_capture_old_data" label="Capture old data" name="use_capture_old_data"
+                                 [groupName]="tableTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="stream_row" label="stream row" name="stream_row"
+                                 [groupName]="tableTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="use_handle_key_updates" label="Handle Key updates"
+                                 name="use_handle_key_updates"
+                                 [groupName]="tableTriggerForm"></custom-checkbox>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="external_select" class="col-sm-3 col-form-label pr-0">External select</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="external_select"
+                       formControlName="external_select"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.external_select.errors }">
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="excluded_column_names" class="col-sm-3 col-form-label pr-0">Excluded column name</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="excluded_column_names"
+                       formControlName="excluded_column_names"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.excluded_column_names.errors }">
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="included_column_names" class="col-sm-3 col-form-label pr-0">Included column name</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="included_column_names"
+                       formControlName="included_column_names"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.included_column_names.errors }">
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="sync_key_names" class="col-sm-3 col-form-label pr-0">Sync key name</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="sync_key_names"
+                       formControlName="sync_key_names"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.sync_key_names.errors }">
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="channel_expression" class="col-sm-3 col-form-label pr-0">Channel expression</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="channel_expression"
+                       formControlName="channel_expression"
+                       [ngClass]="{'is-invalid' : isSubmitted && field.channel_expression.errors }">
+
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-sm-8 float-right mt-3 ofr-svg">
+                <app-loader *ngIf="loader"></app-loader>
+                <button type="submit" class="mr-2" mat-stroked-button>{{button_name}}</button>
+                <button (click)="onCancel()" mat-stroked-button>Cancel</button>
+            </div>
+        </div>
+    </form>
+</c-dialog>

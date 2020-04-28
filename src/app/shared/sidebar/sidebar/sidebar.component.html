@@ -1,0 +1,8 @@
+<ul class="sidebar sidenav navbar-nav" [class.toggled]="sidebarToggled">
+    <ng-content></ng-content>
+    <li class="nav-item" *ngFor="let data of datas; trackBy:trackById">
+        <a class="nav-link" [routerLink]="data.path" routerLinkActive="active">
+            {{ data.name }}
+        </a>
+    </li>
+</ul>

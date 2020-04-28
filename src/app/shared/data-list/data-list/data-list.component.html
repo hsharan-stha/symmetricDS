@@ -1,0 +1,127 @@
+<div class="position-relative">
+<ng-container *ngIf="datas; else load_data">
+    <div class="table-container table-responsive">
+        <ng-container [ngSwitch]="mode">
+            <ng-container *ngSwitchCase="'manage'">
+                <ng-container *ngTemplateOutlet="manage"></ng-container>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'configure'">
+                <ng-container *ngTemplateOutlet="configure"></ng-container>
+            </ng-container>
+        </ng-container>
+
+        <ng-template #manage>
+            <table appDataListTable class="table">
+                <thead>
+                <tr>
+                    <th><input #headerCheckBox type="checkbox" (change)="headerCheckBoxChange($event)"/></th>
+                    <th style="position:relative;" *ngFor="let column of displayedColumns1" appDataList
+                        (currentSortOrder)="sortTable($event)"
+                        [attr.aria-name]="column.property">
+                        <app-table-header [title]="column.name"></app-table-header>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr *ngFor="let data of datas |  filterList:filterText:filterField ; let i = index" >
+                    <td><input #rowCheckBox type="checkbox" (change)="selectedRowManage($event,data.id)"/></td>
+                    <td *ngFor="let column of displayedColumns1" (click)="checkedClickRow( i, data.id)">{{ data[column.property] }} </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </ng-template>
+
+
+        <ng-template #configure>
+            <table appDataListTable class="table">
+                <thead>
+                <tr>
+                    <th style="position:relative;" *ngFor="let column of displayedColumns1" appDataList
+                        (currentSortOrder)="sortTable($event)"
+                        [attr.aria-name]="column.property">
+                        <app-table-header [title]="column.name"></app-table-header>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+               
+                <tr [ngClass]="selectedId == data.id ? 'row_select':''" (click)="selectRow(data.id)"
+                    *ngFor="let data of datas |  filterList:filterText:filterField ">
+                    <td *ngFor="let column of displayedColumns1">{{ data[column.property] }}</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </ng-template>
+
+        <!-- <div class="tbl-setting"> -->
+        <div style="position:absolute; right:0px;top:0px;">
+            <div class="dropdown" ngbDropdown placement="bottom-right" autoClose="outside" closeOnClickOnList="false">
+                <button ngbDropdownToggle  style="padding: 0px 0px;width: 22px;height: 22px;">
+                    <i class="fa fa-cog" style="vertical-align: text-top;"></i>
+                </button>
+                <div ngbDropdownMenu  [formGroup]="columnsForm"  style="min-height:50px;max-height:450px;overflow-y:auto;">
+                    
+                        <div ngbDropdownItem class="dropdown-item" *ngFor="let col of columnsList" (click)="selected(col)" class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" [formControlName]="col.property">
+                            <label class="custom-control-label">{{ col.name }}</label>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+        <app-pagination (page)="getPageNumber($event)" [pagination]="pagination"
+                        [dataLength]="dataTotalLength"
+        ></app-pagination>
+    </div>
+</ng-container>
+
+<ng-template #load_data>
+    <ng-container *ngIf="datas_load_data">
+
+        <div class="pl-5 dataloadstep1-table">
+            <div class="table-responsive" appScrollPagination (scrollPage)="scrollPage($event)">
+                <table appDataListTable id="dataloadstep1" class="table">
+                    <thead>
+                    <tr *ngIf="!forTwoOfTwo">
+                        <th colspan="4">TARGET NOTES</th>
+                    </tr>
+                    <tr>
+                        <th style="width:50px;" *ngIf="forTwoOfTwo"><input #headerCheckBox type="checkbox"
+                                                                           (change)="headerCheckBoxChange($event)"/>
+                        </th>
+                        <th style="position:relative;" *ngFor="let column of displayedColumns1" appDataList
+                            (currentSortOrder)="sortTable($event)"
+                            [attr.aria-name]="column.property">
+                            <app-table-header [title]="column.name"></app-table-header>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="forTwoOfTwo" id="for-two-two">
+                        <td style="width:50px"></td>
+                        <td>
+                            <searchbox (searchText)="searchValue($event)" text="table names"></searchbox>
+                        </td>
+                    </tr>
+                    <tr [ngClass]="selectedId == data.id && !forTwoOfTwo? 'row_select':''" (click)="selectRow(data.id)"
+                        *ngFor="let data of datas_load_data |  filterList:filterText:filterField ">
+                        <td style="width:50px;text-align: center" *ngIf="forTwoOfTwo">
+                            <input #rowCheckBox type="checkbox" (change)="selectedRowManage($event, data.id)"/></td>
+                        <td *ngFor="let column of displayedColumns1">{{ data[column.property] }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </ng-container>
+</ng-template>
+</div>
+
+<div class="tableloader" *ngIf="table_loader">
+    <app-loader></app-loader>
+</div>

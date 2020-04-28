@@ -1,0 +1,19 @@
+<div *ngIf="visibleStep2of2">
+    <h5>Data Load Wizard</h5>
+    <div class="col-12" id="step-two-of-two">
+        <data-list [columnsList]="columnsList"
+                   [table_loader]="table_loader"
+                   [datas_load_data]="SourceTableNameData"
+                   [forTwoOfTwo]="forTwoOfTwo"
+                   [filterField]="filterField"
+                   (manageRowSelectedId)="totalSelectedTables($event)"
+                   (sortOrder)="sortEvent($event)"
+                   (page)="pageNumber($event)"></data-list>
+    </div>
+    <form [formGroup]="groupName">
+        <input type="hidden" class="form-control form-control-sm" [(ngModel)]="triggerlist"
+               formControlName="trigger_id"/>
+        <input type="hidden" class="form-control form-control-sm" [(ngModel)]="routerlist"
+               formControlName="router_id"/>
+    </form>
+</div>

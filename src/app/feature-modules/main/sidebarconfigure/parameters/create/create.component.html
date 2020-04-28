@@ -1,0 +1,87 @@
+<c-dialog text="Parameters" [action]="action" [visible]="showCreateForm" >
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="parametersForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+            <label for="external_id" class="col-12 col-sm-3 col-form-label pr-0">
+                External Id
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+                <input   type="text" formControlName="external_id"
+                       class="form-control form-control-sm"
+                       id="external_id">
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="node_group_id" class="col-12 col-sm-3 col-form-label pr-0">
+                 Node Group Id
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+
+                <select id="node_group_id" formControlName="node_group_id"
+                        class="form-control form-control-sm select-with-bg"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.node_group_id.errors }"
+                        >
+                    <option *ngFor="let nodeGroupId of nodeGroupIds" value="{{ nodeGroupId.name }}">
+                        {{ nodeGroupId.name }}
+                    </option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="param_key" class="col-12 col-sm-3 col-form-label pr-0">
+                Parameter Key
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+                <input   type="text" formControlName="param_key"
+                         class="form-control form-control-sm"
+                         id="param_key" >
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="param_value" class="col-12 col-sm-3 col-form-label pr-0">
+                Parameter Value
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+                <input   type="text" formControlName="param_value"
+                         class="form-control form-control-sm"
+                         id="param_value"
+
+                         [ngClass]="{ 'is-invalid': isSubmitted &&  (field.external_id.errors?.required || field.param_value.errors?.maxlength || field.param_value.errors?.pattern)}">
+
+                <div *ngIf="isSubmitted && field.param_value.errors">
+                    <small class="text-danger m-0 text-sm">Parameter value is required</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3 col-12"></div>
+            <div class="col-sm-4 col-12">
+                <div class="float-right">
+                    <span class="save-btn position-relative">
+                        <button type="submit"  class="mr-2 position-relative" mat-stroked-button [ngClass]="isFormValid ? 'hide':''" >
+                            {{ action }}
+                            <app-loader *ngIf="loader" ></app-loader>
+                        </button>
+                    </span>
+
+                    <button type="button" (click)="onCancel()" mat-stroked-button [disabled]="isFormValid" >Cancel</button>
+                </div>
+            </div>
+
+            <div class="col-6"></div>
+        </div>
+    </form>
+</c-dialog>

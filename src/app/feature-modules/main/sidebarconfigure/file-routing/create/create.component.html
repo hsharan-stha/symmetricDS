@@ -1,0 +1,87 @@
+<c-dialog dialogWidth="1056px" [action]="button_name" text="File Routing" [visible]="showDialog">
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="fileRoutingForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+            <label for="trigger_id" class="col-sm-3 col-form-label pr-0">File Triggers<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <select [attr.disabled]="disabledTextBox" class="form-control form-control-sm channels-form"
+                        id="trigger_id"
+                        formControlName="trigger_id"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.trigger_id.errors }">
+                    <option>choose file trigger id</option>
+                    <option *ngFor="let d of file_triggers" [attr.value]="d">{{d}}</option>
+                </select>
+                <div *ngIf="isSubmitted && field.trigger_id.errors">
+                    <small class="text-danger m-0 text-sm">Trigger id is required</small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <label for="router_id" class="col-sm-3 col-form-label pr-0">Routers<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <select [attr.disabled]="disabledTextBox" class="form-control form-control-sm channels-form"
+                        id="router_id"
+                        formControlName="router_id"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.router_id.errors }">
+                    <option>choose router id</option>
+                    <option *ngFor="let d of router_data" [attr.value]="d">{{d}}</option>
+                </select>
+                <div *ngIf="isSubmitted && field.router_id.errors">
+                    <small class="text-danger m-0 text-sm">Routers is required</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="form-group row">
+            <label for="target_base_dir" class="col-sm-3 col-form-label pr-0">Target base directory</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control form-control-sm" id="target_base_dir"
+                       formControlName="target_base_dir">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="conflict_strategy" class="col-sm-3 col-form-label pr-0">Conflict strategy<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <select class="form-control form-control-sm channels-form" id="conflict_strategy"
+                        formControlName="conflict_strategy"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.conflict_strategy.errors }">
+                    <option>choose conflict strategy id</option>
+                    <option *ngFor="let d of conflict_strategy_data" [attr.value]="d.id">{{d.value}}</option>
+                </select>
+                <div *ngIf="isSubmitted && field.conflict_strategy.errors">
+                    <small class="text-danger m-0 text-sm">Conflict strategy is required</small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+                <custom-checkbox formId="initial_load_enabled" label="Initial load enabled" name="initial_load_enabled"
+                                 [groupName]="fileRoutingForm"></custom-checkbox>
+                <custom-checkbox formId="enabled" label="Enabled" name="enabled"
+                                 [groupName]="fileRoutingForm"></custom-checkbox>
+
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-8 float-right mt-3 ofr-svg">
+                <app-loader *ngIf="loader"></app-loader>
+                <button type="submit" class="mr-2" mat-stroked-button>{{button_name}}</button>
+                <button (click)="onCancel()" type="button" mat-stroked-button>Cancel</button>
+                <!--</a>-->
+            </div>
+        </div>
+    </form>
+</c-dialog>

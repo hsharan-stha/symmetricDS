@@ -1,0 +1,25 @@
+<div class="bg-hider"></div>
+<div class="dialog_data_load">
+    <div class="col-lg-12">
+        <h6>Data load Wizard</h6>
+    </div>
+    <div class="col-lg-12">
+        <app-data-load-step-one [visibleStep1]="stepVisible1" [groupName]="nodesTemplate"></app-data-load-step-one>
+        <app-data-load-step-two [visibleStep2]="stepVisible2" [groupName]="nodesTemplate"
+                                [selectedChannelID]="selectedChannelID"></app-data-load-step-two>
+        <app-data-load-step-two-of-two [visibleStep2of2]="stepVisible2of2" [groupName]="nodesTemplate"
+                                       [nodesTemplateData]="nodesTemplateData"></app-data-load-step-two-of-two>
+        <app-data-load-step-three [visibleStep3]="stepVisible3"
+                                  [nodesTemplateData]="nodesTemplateData"></app-data-load-step-three>
+    </div>
+    <hr/>
+    <div class="dialog-footer float-right ofr-svg">
+        <app-loader *ngIf="loader"></app-loader>
+        <button (click)="close()" type="button">Cancel</button>
+        <button type="button" (click)="prev()" class="{{unClickable}}">Previous</button>
+        <button type="button" (click)="next()">{{nextText}}</button>
+
+    </div>
+</div>
+
+

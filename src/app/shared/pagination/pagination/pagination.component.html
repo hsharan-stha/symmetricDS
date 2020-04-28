@@ -1,0 +1,22 @@
+<ul *ngIf="pagination" class="pagination">
+    <li>
+        <button type="button" (click)="onPrev(pageNumber)"
+                [disabled]="prevDisabled">Previous
+        </button>
+    </li>
+
+    <li class="d-none d-sm-block">
+        <form [formGroup]="paginationForm" (keydown)="keyDownFunction($event)">
+            <div class="input-group">
+                <input type="text" formControlName="p_n" autocomplete="off"
+                       id="p_n" style="width:40px;">
+                <span>
+                        <button [disabled]="goDisabled" (click)="onSubmit()" type="button">Go!</button>
+                    </span>
+            </div>
+        </form>
+    </li>
+    <li>
+        <button type="button" [disabled]="nextDisabled" (click)="onNext(pageNumber)">Next</button>
+    </li>
+</ul>

@@ -1,0 +1,22 @@
+
+.vertical{
+    margin: 0px 15px;
+    border-left: solid 1px #c7c7c7;
+    padding: 0px 0px 9px;
+}
+
+.table thead tr:first-child, .table tbody tr:nth-child(2n) {
+    background: #dfdfdf;
+    border: 1px solid #e0e0e0;
+}
+
+.table tbody td, .table thead td {
+    padding: 2px 15px;
+    border-right: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+    color: #646464;
+}
+
+.table-container{
+    border : 1px solid #c1c1c1;
+}

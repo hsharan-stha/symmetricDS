@@ -1,0 +1,13 @@
+.messages-container {
+    border: solid 1px #cdcdcd;
+    white-space: nowrap;
+    overflow: auto;
+    height: 670px;
+}
+
+.messages-container p {
+    color: red;
+    margin: 5px;
+    font-size: 13px;
+}
+

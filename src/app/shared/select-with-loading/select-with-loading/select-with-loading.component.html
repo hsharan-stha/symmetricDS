@@ -1,0 +1,21 @@
+<div class="form-group" [formGroup]="groupName" style="margin:0px;">
+    <label style="margin-bottom: 0px;">{{ label }}</label>
+    <select [id]="controlName" (change)="selectChange($event)"
+            *ngIf="datas; else loadingBlock "
+            class="form-control form-control-sm select-with-bg"
+            [formControlName]="controlName">
+        <option *ngFor="let data of datas" [attr.value]="data.code"> {{  data.name  }}</option>
+    </select>
+</div>
+
+<ng-template #loadingBlock>
+    <div class="position-relative">
+        <select disabled class="form-control form-control-sm  loading-select">
+            <option selected> Loading...</option>
+        </select>
+
+        <div class="loader loader--style1" title="0">
+            <app-loader></app-loader>
+        </div>
+    </div>
+</ng-template>

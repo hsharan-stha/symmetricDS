@@ -1,0 +1,17 @@
+.loader{
+    position: fixed;
+    top : 50% ;
+    left : 50% ;
+}
+
+.log-container{
+    border:solid 1px #cdcdcd;
+    white-space: nowrap;
+    overflow: auto;
+    height: 700px;
+}
+
+.log-container p {
+    margin:5px;
+    font-size:13px;
+}

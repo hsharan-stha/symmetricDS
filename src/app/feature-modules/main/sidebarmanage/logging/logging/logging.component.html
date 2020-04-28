@@ -1,0 +1,54 @@
+<body-title text="Manage Logging"></body-title>
+
+<div class="col-12">
+    <div class="row tbl-up-gap mt-2">
+        <form [formGroup]="filterForm">
+            <ul class="list-inline">
+
+                <li class="list-inline-item" style="width:60px;">
+                    <div class="form-group">
+                        <input formControlName="qty" type="text" class="form-control form-control-sm"/>
+                    </div>
+                </li>
+
+                <li class="list-inline-item">
+                    <searchbox text="" (searchText)="searchValue($event)"></searchbox>
+                </li>
+
+                <li class="list-inline-item">
+                    <button type="button" mat-stroked-button style="min-width:40px !important;" (click)="submit()">
+                        <i class="fas fa-sync"></i>
+                    </button>
+                </li>
+
+
+                <li class="list-inline-item float-sm-right">
+                    <div class="custom-control custom-checkbox">
+                        <input (change)="autoRefreshChange($event)" type="checkbox" class="custom-control-input"
+                               id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1" style="vertical-align: -30%;">Auto
+                            Refresh</label>
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="row">
+        <div class="w-100">
+            <div style="padding: 4px 0px 4px 5px;background: #0072c6;color: white;border:1px solid #0072c6;">
+                <h6 class="text text-white body-title"> Log Output</h6>
+            </div>
+    
+            <div class="log-container" #scrollToBottom >
+                <p *ngFor="let log of loggings; trackBy:trackByFuntion" [innerHtml]="log.name"></p>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="loader" *ngIf="loading">
+        <app-loader></app-loader>
+    </div>
+
+</div>
+

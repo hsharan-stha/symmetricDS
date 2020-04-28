@@ -1,0 +1,19 @@
+.sort-icons {
+    opacity: 0.5;
+    position: absolute;
+    right: 0px;
+    top:4px;
+}
+
+.visbility-hidden {
+    visibility: hidden;
+}
+.icon-con{
+    width:15px;
+    height:15px;
+    margin-top:-5px;
+}
+
+.desc-container{
+    margin-top:-8px;
+}

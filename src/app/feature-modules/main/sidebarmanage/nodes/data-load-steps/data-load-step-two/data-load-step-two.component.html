@@ -1,0 +1,79 @@
+<div *ngIf="visibleStep2">
+  <h5>Choose the criteria for this load</h5>
+  <form [formGroup]="groupName" id="loadDataForm">
+
+    <input type="hidden" class="form-control form-control-sm" [(ngModel)]="trigger"
+           formControlName="trigger_id"/>
+    <input type="hidden" class="form-control form-control-sm" [(ngModel)]="router"
+           formControlName="router_id"/>
+
+    <label class="d2-title">How many table would you like to add?</label>
+    <div class="radio">
+      <label><input type="radio" (click)="actionTop(1)" name="optradio1"
+                    [checked]="checkedRadioTop===1">{{stepTwoConstantValue.check_top_one}}</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" (click)="actionTop(2)" name="optradio1"
+                    [checked]="checkedRadioTop===2">{{stepTwoConstantValue.check_top_two}}</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" (click)="actionTop(3)" name="optradio1"
+                    [checked]="checkedRadioTop===3">{{stepTwoConstantValue.check_top_three}}</label>
+    </div>
+    <div class="col-lg-2 pl-0" *ngIf="showDrop">
+      <select *ngIf="allTableForChannel; else loadingBlock" id="drop"
+              class="form-control form-control-sm channels-form" formControlName="channel_id">
+        <option>Choose channel id</option>
+        <option *ngFor="let d of allTableForChannel" [attr.value]="d.name"
+                [selected]="selectedChannelID===d.name">{{d.name}}</option>
+      </select>
+      <ng-template #loadingBlock>
+        <div class="position-relative">
+          <select disabled class="form-control form-control-sm  loading-select">
+            <option selected> Loading...</option>
+          </select>
+
+          <div class="loader loader--style1" title="0">
+            <app-loader></app-loader>
+          </div>
+        </div>
+      </ng-template>
+      <!--<label for="drop"><i class="fa fa-angle-down"></i></label>-->
+    </div>
+
+    <label class="d2-title">What should be done before loading the target data?</label>
+
+    <div class="radio">
+      <label><input type="radio" (change)="actionBottom(4)" name="optradio2"
+                    [checked]="checkedRadioBottom===4">{{stepTwoConstantValue.check_bottom_four}}</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" (change)="actionBottom(5)" name="optradio2"
+                    [checked]="checkedRadioBottom===5">{{stepTwoConstantValue.check_bottom_five}}</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" (change)="actionBottom(6)" name="optradio2"
+                    [checked]="checkedRadioBottom===6">{{stepTwoConstantValue.check_bottom_six}}</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" (change)="actionBottom(7)" name="optradio2"
+                    [checked]="checkedRadioBottom===7">{{stepTwoConstantValue.check_bottom_seven}}</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" (change)="actionBottom(8)" name="optradio2"
+                    [checked]="checkedRadioBottom===8">{{stepTwoConstantValue.check_bottom_eight}}</label>
+    </div>
+    <!---->
+    <div class="col-lg-4 pl-0" *ngIf="showTextBox">
+      <input [attr.type]="inputType" [(ngModel)]="beforeCustomSQL" formControlName="before_custom_sql"
+             class=" form-control form-control-sm" placeholder="" disabledautocomplete="off"/>
+
+    </div>
+
+    <input type="hidden" class="form-control form-control-sm" [(ngModel)]="createTable"
+           formControlName="create_table"/>
+    <input type="hidden" class="form-control form-control-sm" [(ngModel)]="deleteFirst"
+           formControlName="delete_first"/>
+
+  </form>
+</div>

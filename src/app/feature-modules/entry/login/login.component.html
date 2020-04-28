@@ -1,0 +1,75 @@
+<div class="login-container ">
+    <div class="logo text-center">
+        <logo></logo>
+    </div>
+    <div class="card card-login  mt-3">
+        <div class="card-header bg-primary-dark text-white">Login</div>
+        <div class="card-body">
+
+            <div *ngIf="errorMessage" class="alert alert-danger alert-sm" role="alert">
+                {{ errorMessage }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+
+                    <label for="username" class="form-label">Username</label>
+                    <input id="username" type="text" formControlName="username" class="form-control form-control-sm"
+                           [ngClass]="{ 'is-invalid': submitted &&  field.username.errors }"/>
+                    <div *ngIf="submitted && field.username.errors">
+                        <small class="text-danger m-0 text-sm">Username is required</small>
+                    </div>
+
+                </div>
+                <div class="form-group">
+
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" formControlName="password" class="form-control form-control-sm"
+                           [ngClass]="{ 'is-invalid': submitted && field.password.errors }"/>
+                    <div *ngIf="submitted && field.password.errors">
+                        <small class="text-danger m-0 text-sm">Password is required</small>
+                    </div>
+                </div>
+
+                <div class="form-group node-select position-relative">
+
+                    <label for="node" class="form-label">Node</label>
+                    <select *ngIf="nodes" id="node" class="form-control form-control-sm" formControlName="node"
+                            [ngClass]="{'is-invalid':submitted && field.node.errors}">
+                        <option [attr.value]="">Please Choose Node</option>
+                        <option *ngFor="let node of nodes; trackBy:nodeTrackBy"
+                                [attr.value]="node.id">{{ node.name }}</option>
+
+                    </select>
+                    <div *ngIf="submitted && field.node.errors">
+                        <small class="text-danger m-0 text-sm">Node id is required</small>
+                    </div>
+
+                    <select disabled *ngIf="!isNodeListLoaded" class="form-control form-control-sm  loading-select">
+                        <option selected>Node</option>
+                    </select>
+
+                    <div *ngIf="!isNodeListLoaded" class="loader loader--style1" title="0">
+                        <app-loader></app-loader>
+                    </div> 
+    
+                </div>
+
+                <div class="form-group clearfix mb-0" style="position: relative">
+                    <button *ngIf="!loader" [disabled]="!isNodeListLoaded"
+                            class="btn btn-primary-dark float-right btn-sm text-white">
+                        Login
+                    </button>
+
+                    <button style="width: 80px;text-align: left;" *ngIf="loader" [disabled]="loader"
+                            class="btn btn-primary-dark float-right btn-sm text-white btn-loading">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+ul{
+    margin:0px;
+    padding: 5px 0px 5px 10px;
+}
+ 
+ ul li {
+    margin: 5px;
+    list-style: none; 
+    display: inline-block;
+}
+
+ul li:last-child {
+    margin-right: 19px;
+}

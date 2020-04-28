@@ -1,0 +1,40 @@
+<div class="col-lg-12 manage-button">
+  <ul>
+    <li>
+      <button (click)="toggleVisible()" [disabled]="disableLDCR" type="button" mat-stroked-button>Load Data</button>
+    </li>
+    <li>
+      <span class="verticle"></span>
+    </li>
+    <li>
+      <div ngbDropdown class="dropdown">
+        <button ngbDropdownToggle [ngClass]="buttonDisabledClass" [disabled]="disableLDCR" mat-stroked-button class="dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Control
+          <i class="fa fa-angle-down"></i>
+        </button>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a  ngbDropdownItem *ngFor="let d of controlData" class="dropdown-item" (click)="performAction(selectedID,d.id)">{{d.data}}</a>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="dropdown" ngbDropdown>
+        <button ngbDropdownToggle  [ngClass]="buttonDisabledClass" [disabled]="disableLDCR" mat-stroked-button class="dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Registration
+          <i class="fa fa-angle-down"></i>
+        </button>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a ngbDropdownItem *ngFor="let d of registrationData" class="dropdown-item" (click)="performAction(selectedID,d.id)">{{d.data}}</a>
+
+        </div>
+      </div>
+
+    </li>
+
+    <li class="float-md-right">
+      <searchbox (searchText)="searchValue($event)"></searchbox>
+    </li>
+  </ul>
+</div>

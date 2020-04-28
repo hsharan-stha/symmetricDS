@@ -1,0 +1,43 @@
+.pagination {
+    right: 10px;
+    position: absolute;
+    list-style: none;
+}
+
+.pagination li {
+    padding: 5px;
+    display: inline-block;
+}
+
+ 
+.pagination li button {
+    padding: 3px 10px 3px 10px;
+    border: solid 1px #b3b3b3;
+    background: #F8F8F8;
+    border-radius: 3px;
+}
+
+.pagination li button:hover {
+    background: #F0F0F0;
+    cursor: pointer;
+}
+
+.pagination li:nth-child(2) button {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.pagination li input {
+    border: solid 1px #b3b3b3;
+    border-right: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+::-webkit-input-placeholder {
+    text-align: center;
+}
+
+.pagination li:nth-child(2) input {
+    text-align: center;
+}

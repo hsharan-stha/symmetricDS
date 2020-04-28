@@ -1,0 +1,36 @@
+<body-title text="Routers"></body-title>
+<div class="col-12 p-0">
+
+    <app-tabhead text="Routers"></app-tabhead>
+
+
+    <div class="config-body" id="routers">
+
+        <app-buttonbar [createpath]="createPath"
+                       [editpath]="editpath"
+                       [deletepath]="deletePath"
+                       [buttonClass]="crudButtonClass"
+                       [selectedId]="selectedId"
+                       (searchBoxData)="searchValue($event)"
+        ></app-buttonbar>
+        <router-outlet></router-outlet>
+
+        <div class="p-3">
+            <data-list
+
+                    [columnsList]="totalColsList"
+                    [table_loader]="table_loader"
+                    [datas]="routersData"
+                    [filterText]="subText"
+                    [filterField]="filterField"
+                    (selectedRow)="rowSelected($event)"
+                    (sortOrder)="sortEvent($event)"
+                    [pagination]="pagination"
+                    (page)="pageNumber($event)"
+            ></data-list>
+        </div>
+    </div>
+    <!-- <app-messagebox [message]="message" ></app-messagebox>
+ -->
+
+</div>

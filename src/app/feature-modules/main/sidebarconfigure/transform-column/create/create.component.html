@@ -1,0 +1,157 @@
+<c-dialog dialogWidth="1056px" text="Transform Column" [action]="action" [visible]="showForm">
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="transformFormGroup" (ngSubmit)="onSubmit()">
+         
+
+        <div class="form-group row">
+            <label for="include_on" class="col-sm-3 col-form-label pr-0">
+                Include On
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-3">
+                <select class="form-control form-control-sm select-with-bg"
+                        id="include_on" formControlName="include_on"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.include_on.errors }">
+                    <option *ngFor="let includeOn of includeOnList" [ngValue]="includeOn.code"> {{  includeOn.name }}</option>
+                </select>
+                <div *ngIf="isSubmitted && field.include_on.errors?.required">
+                    <small class="text-danger m-0 text-sm">Include on is required</small>
+                    <br/>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="transform_id" class="col-sm-3 col-form-label pr-0">
+                Transform ID 
+            </label>
+            <div class="col-sm-3">
+                <select *ngIf="transformTableList ; else loadingTemplate"  class="form-control form-control-sm select-with-bg"
+                        id="transform_id" formControlName="transform_id"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.transform_id.errors }">
+                    <option *ngFor="let transformTable of transformTableList" [ngValue]="transformTable"> {{  transformTable }}</option>
+                </select>
+                <div *ngIf="isSubmitted && field.transform_id.errors?.required">
+                    <small class="text-danger m-0 text-sm">Transform id is required</small>
+                    <br/>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="target_column_name" class="col-sm-3 col-form-label pr-0">
+                Target Column Name 
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-3">
+                <select *ngIf="!columnNameLoading ; else loadingTemplate"  class="form-control form-control-sm select-with-bg"
+                        id="target_column_name" formControlName="target_column_name" >
+                    <option *ngFor="let columName of columnNameList" [ngValue]="columName"> {{  columName }}</option>
+                </select>
+
+                <div *ngIf="isSubmitted && field.target_column_name.errors?.required">
+                    <small class="text-danger m-0 text-sm">Target column name is required</small>
+                    <br/>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="source_column_name" class="col-sm-3 col-form-label pr-0">
+                Source Column Name  
+            </label>
+            <div class="col-sm-3">
+                <select *ngIf="!columnNameLoading ; else loadingTemplate" class="form-control form-control-sm select-with-bg"
+                        id="source_column_name" formControlName="source_column_name" >
+                    <option *ngFor="let columName of columnNameList" [ngValue]="columName"> {{  columName }}</option>
+                </select>
+                
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label pr-0"></label>
+            <div class="col-sm-3">
+                <custom-checkbox formId="pk" label="PK" [groupName]="transformFormGroup" name="pk"></custom-checkbox>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="target_column_name" class="col-sm-3 col-form-label pr-0">
+                Transform type 
+            </label>
+            <div class="col-sm-3">
+                
+                <select class="form-control form-control-sm select-with-bg"
+                        id="transform_type" formControlName="transform_type"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.transform_type.errors }">
+                    <option *ngFor="let transformType of transformTypeList" [ngValue]="transformType.code"> {{  transformType.name }}</option>
+                </select>
+               
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="transform_expression" class="col-sm-3 col-form-label pr-0">
+                Transform Expression 
+            </label>
+            <div class="col-sm-6">
+                <textarea rows="5" formControlName="transform_expression" class="form-control form-control-sm resize-disable" id="transform_expression"></textarea>
+                
+                <div *ngIf="isSubmitted && field.transform_expression.errors?.required">
+                    <small class="text-danger m-0 text-sm">Transform expression is required</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="transform_order" class="col-sm-3 col-form-label pr-0">
+                Transform Order
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-3">
+                <input  type="text" class="form-control form-control-sm"
+                        id="transform_order" formControlName="transform_order"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.transform_order.errors }">
+                <div *ngIf="isSubmitted && field.transform_order.errors?.required">
+                    <small class="text-danger m-0 text-sm">Transform order is required</small>
+                </div>
+                 
+                <div *ngIf="isSubmitted && field.transform_order.errors?.pattern">
+                        <small class="text-danger m-0 text-sm">Must be integer</small>
+                    </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="description" class="col-sm-3 col-form-label pr-0">
+                Description 
+            </label>
+            <div class="col-sm-6">
+                <textarea rows="5" formControlName="description" class="form-control form-control-sm resize-disable" id="description"></textarea>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <div class="col-sm-8 float-right mt-3 ofr-svg">
+                <app-loader *ngIf="loader"></app-loader>
+                <button type="submit" class="mr-2" mat-stroked-button>{{ action }}</button>
+                <button (click)="onCancel()" mat-stroked-button>Cancel</button>
+            </div>
+        </div>
+    </form>
+
+    <ng-template #loadingTemplate>
+        <div class="position-relative">
+            <select disabled class="form-control form-control-sm  loading-select">
+                <option selected> Loading...</option>
+            </select>
+
+            <div class="loader" style="position: absolute;top: 0px;right: 0px;">
+                <app-loader></app-loader>
+            </div>
+        </div>
+    </ng-template>
+</c-dialog>

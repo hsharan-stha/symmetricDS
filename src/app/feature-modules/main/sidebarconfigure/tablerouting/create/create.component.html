@@ -1,0 +1,104 @@
+<c-dialog dialogWidth="1056px" text="Table Routing" [action]="button_name" [visible]="showDialog">
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="tableRoutingForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+            <label for="trigger_id" class="col-sm-2 col-form-label pr-0">Trigger<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <select [attr.disabled]="disabledTextBox" class="form-control form-control-sm channels-form"
+                        id="trigger_id"
+                        formControlName="trigger_id"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.trigger_id.errors }">
+                    <option>choose trigger id</option>
+                    <option *ngFor="let d of trigger_data" [attr.value]="d">{{d}}</option>
+
+                </select>
+                <div *ngIf="isSubmitted && field.trigger_id.errors">
+                    <small class="text-danger m-0 text-sm">Trigger id is required</small>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="form-group row">
+            <label for="router_id" class="col-sm-2 col-form-label pr-0">Router<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <select [attr.disabled]="disabledTextBox" class="form-control form-control-sm channels-form"
+                        id="router_id"
+                        formControlName="router_id"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.router_id.errors }">
+                    <option>choose router id</option>
+                    <option *ngFor="let d of router_data" [attr.value]="d">{{d}}</option>
+
+                </select>
+                <div *ngIf="isSubmitted && field.router_id.errors">
+                    <small class="text-danger m-0 text-sm">Router id is required</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="form-group row">
+            <label for="initial_load_select" class="col-sm-2 col-form-label pr-0">Initial load select</label>
+            <div class="col-sm-10">
+                            <textarea rows="5" name="i_load_s" formControlName="initial_load_select"
+                                      class="form-control form-control-sm resize-disable"
+                                      id="initial_load_select"
+                                      [ngClass]="{ 'is-invalid': isSubmitted &&  field.initial_load_select.errors }"></textarea>
+                <!--<div *ngIf="isSubmitted && field.i_load_s.errors">-->
+                <!--<small class="text-danger m-0 text-sm">Initial load select is required</small>-->
+                <!--</div>-->
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="initial_load_delete_stmt" class="col-sm-2 col-form-label pr-0">Initial load delete</label>
+            <div class="col-sm-10">
+                            <textarea rows="5" name="i_load_d" formControlName="initial_load_delete_stmt"
+                                      class="form-control form-control-sm resize-disable"
+                                      id="initial_load_delete_stmt"
+                                      [ngClass]="{ 'is-invalid': isSubmitted &&  field.initial_load_delete_stmt.errors }"></textarea>
+                <!--<div *ngIf="isSubmitted && field.i_load_d.errors">-->
+                <!--<small class="text-danger m-0 text-sm">Initial load delete is required</small>-->
+                <!--</div>-->
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="initial_load_order" class="col-sm-2 col-form-label pr-0">Initial load order<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control form-control-sm" id="initial_load_order"
+                       formControlName="initial_load_order"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.initial_load_order.errors?.required || field.initial_load_order.errors?.maxlength || field.initial_load_order.errors?.pattern)}">
+                <div *ngIf="isSubmitted && field.initial_load_order.errors?.required">
+                    <small class="text-danger m-0 text-sm">Initial load order is required</small>
+                </div>
+                <div *ngIf="isSubmitted && field.initial_load_order.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 11 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.initial_load_order.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed numeric [1-9]</small>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-9">
+                <custom-checkbox formId="enabled" label="Enabled" name="enabled"
+                                 [groupName]="tableRoutingForm"></custom-checkbox>
+                <custom-checkbox formId="ping_back_enabled" label="Ping back enabled" name="ping_back_enabled"
+                                 [groupName]="tableRoutingForm"></custom-checkbox>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="float-right mt-3 ofr-svg">
+                <app-loader *ngIf="loader"></app-loader>
+                <button type="submit" class="mr-2" mat-stroked-button>{{button_name}}</button>
+                <button (click)="onCancel()" type="button" mat-stroked-button>Cancel</button>
+                <!--</a>-->
+            </div>
+        </div>
+    </form>
+</c-dialog>

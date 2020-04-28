@@ -1,0 +1,235 @@
+<c-dialog dialogWidth="1056px" text="Channel" [action]="button_name" [visible]="showDialog">
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="channelForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+            <label for="channel_id" class="col-sm-3 col-form-label pr-0">Channel Id<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input [attr.disabled]="disabledTextBox" type="text" class="form-control form-control-sm" id="channel_id" formControlName="channel_id"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.channel_id.errors?.required || field.channel_id.errors?.maxlength || field.channel_id.errors?.pattern)}">
+
+            </div>
+            <div class="col-sm-3">
+                <div *ngIf="isSubmitted && field.channel_id.errors?.required">
+                    <small class="text-danger m-0 text-sm">Channel ID is required</small>
+                    <br/>
+                </div>
+                <div *ngIf="isSubmitted && field.channel_id.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 50 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.channel_id.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Za-z0-9_]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="processing_order" class="col-sm-3 col-form-label pr-0">Processing Order<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="processing_order"
+                       formControlName="processing_order"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.processing_order.errors?.required || field.processing_order.errors?.maxlength || field.processing_order.errors?.pattern)}">
+            </div>
+            <div class="col-sm-3">
+                <div *ngIf="isSubmitted && field.processing_order.errors?.required">
+                    <small class="text-danger m-0 text-sm">Processing order is required</small>
+                </div>
+                <div *ngIf="isSubmitted && field.processing_order.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 11 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.processing_order.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed numeric [1-9]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="batch_algorithm" class="col-sm-3 col-form-label pr-0">Batch Algorithm<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-5">
+                <select class="form-control form-control-sm channels-form" id="batch_algorithm"
+                        formControlName="batch_algorithm"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.batch_algorithm.errors }">
+                    <option *ngFor="let d of batchAlgorithm" [attr.value]="d.id">{{d.value}}</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <div *ngIf="isSubmitted && field.batch_algorithm.errors">
+                    <small class="text-danger m-0 text-sm">Batch algorithm is required</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="max_batch_size" class="col-sm-3 col-form-label pr-0">Max. Batch Size<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="max_batch_size"
+                       formControlName="max_batch_size"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.max_batch_size.errors?.required || field.max_batch_size.errors?.maxlength || field.max_batch_size.errors?.pattern)}">
+            </div>
+            <div class="col-sm-3">
+                <div *ngIf="isSubmitted && field.max_batch_size.errors?.required">
+                    <small class="text-danger m-0 text-sm">Batch size is required</small>
+                </div>
+                <div *ngIf="isSubmitted && field.max_batch_size.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 11 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.max_batch_size.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed numeric [1-9]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="max_batch_to_send" class="col-sm-3 col-form-label pr-0">Max. Batch to Send<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="max_batch_to_send"
+                       formControlName="max_batch_to_send"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.max_batch_to_send.errors?.required || field.max_batch_to_send.errors?.maxlength || field.max_batch_to_send.errors?.pattern)}">
+
+            </div>
+            <div class="col-sm-3">
+                <div *ngIf="isSubmitted && field.max_batch_to_send.errors?.required">
+                    <small class="text-danger m-0 text-sm">Max.batch to send is required</small>
+                </div>
+                <div *ngIf="isSubmitted && field.max_batch_to_send.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 11 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.max_batch_to_send.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed numeric [1-9]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="max_data_to_route" class="col-sm-3 col-form-label pr-0">Max. Data to Route<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="max_data_to_route"
+                       formControlName="max_data_to_route"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.max_data_to_route.errors?.required || field.max_data_to_route.errors?.maxlength || field.max_data_to_route.errors?.pattern) }">
+
+            </div>
+            <div class="col-sm-3">
+
+                <div *ngIf="isSubmitted && field.max_data_to_route.errors?.required">
+                    <small class="text-danger m-0 text-sm">Max. data to route is required</small>
+                </div>
+                <div *ngIf="isSubmitted && field.max_data_to_route.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 11 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.max_data_to_route.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed numeric [1-9]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="max_network_kbps" class="col-sm-3 col-form-label pr-0">Max. KB/s<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="max_network_kbps"
+                       formControlName="max_network_kbps"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.max_network_kbps.errors?.required || field.max_network_kbps.errors?.maxlength || field.max_network_kbps.errors?.pattern) }">
+
+            </div>
+            <div class="col-sm-3">
+                <div *ngIf="isSubmitted && field.max_network_kbps.errors?.required">
+                    <small class="text-danger m-0 text-sm">Max. kb/s is required</small>
+                </div>
+                <div *ngIf="isSubmitted && field.max_network_kbps.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 11 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.max_network_kbps.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed numeric [1-9] && number format : decimal(10,3)
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="data_loader_type" class="col-sm-3 col-form-label pr-0">Data Loader Type<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-5">
+                <select class="form-control form-control-sm channels-form" id="data_loader_type"
+                        formControlName="data_loader_type"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.data_loader_type.errors }">
+                    <option *ngFor="let d of dataLoaderType" [attr.value]="d.id">{{d.value}}</option>
+                </select>
+
+            </div>
+            <div class="col-sm-3">
+                <div *ngIf="isSubmitted && field.data_loader_type.errors">
+                    <small class="text-danger m-0 text-sm">Data loader type is required</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="queue" class="col-sm-3 col-form-label pr-0">Queue Name*</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="queue" formControlName="queue"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.queue.errors?.required || field.queue.errors?.maxlength || field.queue.errors?.pattern) }">
+
+            </div>
+            <div class="col-sm-3">
+                <div *ngIf="isSubmitted && field.queue.errors?.required">
+                    <small class="text-danger m-0 text-sm">Queue name type is required</small>
+                </div>
+                <div *ngIf="isSubmitted && field.queue.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 25 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.queue.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed character [A-Za-z0-9]</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="data_event_action" class="col-sm-3 col-form-label pr-0">Group Link Direction<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-5">
+                <select class="form-control form-control-sm channels-form" id="data_event_action"
+                        formControlName="data_event_action"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.data_event_action.errors }">
+                    <option value=""></option>
+                    <option *ngFor="let d of groupLinkDirection" [attr.value]="d.id">{{d.value}}</option>
+                </select>
+
+            </div>
+            <div class="col-sm-3">
+                <div *ngIf="isSubmitted && field.data_event_action.errors">
+                    <small class="text-danger m-0 text-sm">Group link direction is required</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="description" class="col-sm-3 col-form-label pr-0">Description</label>
+            <div class="col-sm-5">
+                            <textarea rows="5" name="description" formControlName="description"
+                                      class="form-control form-control-sm resize-disable"
+                                      id="description"></textarea>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-top: 5px !important; ">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+
+                <custom-checkbox formId="enabled" label="enabled" name="enabled"
+                                 [groupName]="channelForm"></custom-checkbox>
+                <custom-checkbox formId="reload_flag" label="Reload Channel" name="reload_flag"
+                                 [groupName]="channelForm"></custom-checkbox>
+                <custom-checkbox formId="file_sync_flag" label="File Sync Channel" name="file_sync_flag"
+                                 [groupName]="channelForm"></custom-checkbox>
+                <custom-checkbox formId="use_old_data_to_route" label="Use Old Data To Route"
+                                 name="use_old_data_to_route"
+                                 [groupName]="channelForm"></custom-checkbox>
+                <custom-checkbox formId="use_row_data_to_route" label="Use Row Data To Route"
+                                 name="use_row_data_to_route"
+                                 [groupName]="channelForm"></custom-checkbox>
+                <custom-checkbox formId="use_pk_data_to_route" label="Use Primary Key(PK) Data To Route"
+                                 name="use_pk_data_to_route"
+                                 [groupName]="channelForm"></custom-checkbox>
+                <custom-checkbox formId="contains_big_lob" label="Table Contain Big Lobs" name="contains_big_lob"
+                                 [groupName]="channelForm"></custom-checkbox>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-8 float-right mt-3 ofr-svg">
+                <app-loader *ngIf="loader"></app-loader>
+                <button type="submit" class="mr-2" mat-stroked-button>{{button_name}}</button>
+                <button (click)="onCancel()" type="button" mat-stroked-button>Cancel</button>
+                <!--</a>-->
+            </div>
+        </div>
+    </form>
+</c-dialog>

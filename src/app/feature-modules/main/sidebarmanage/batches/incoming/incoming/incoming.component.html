@@ -1,0 +1,84 @@
+<body-title text="Incoming Batches"></body-title>
+<div class="col-12 p-0">
+    <div class="tbl-up-gap">
+        <form [formGroup]="filterForm">
+            <ul class="list-inline clearfix">
+                <li class="list-inline-item">
+                    <select-with-loading
+                            [groupName]="filterForm"
+                            controlName="channel_id"
+                            (channelID)="getChannelID($event)"
+                            label="Channel"
+                            [datas]="channels"></select-with-loading>
+
+                </li>
+
+                <li class="list-inline-item">
+                    <label class="mb-0">Status</label>
+                    <select class="form-control form-control-sm select-with-bg" formControlName="status"
+                            (change)="getStatusID($event)">
+                        <option *ngFor="let statusValue of statusValues"
+                                [value]="statusValue.code">{{ statusValue.name }}</option>
+                    </select>
+                </li>
+
+                <li class="list-inline-item">
+                    <button (click)="getData()" type="button" mat-stroked-button style="min-width:40px !important;">
+                        <i class="fas fa-sync"></i>
+                    </button>
+                </li>
+                <li class="list-inline-item">
+                    <span class="verticle"></span>
+                </li>
+ 
+                <li class="list-inline-item">
+                    <div class="form-group">
+
+                   <span class="dropdown" ngbDropdown>
+                        <button [disabled]="disableCh" ngbDropdownToggle mat-stroked-button type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown">
+                            Change
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                        <div position="left" ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+
+                            <a ngbDropdownItem [disabled]="!haveAnyStatusER" (click)="ignoreBatch()">Ignore Batch</a>
+                            <a ngbDropdownItem [disabled]="!haveAnyStatusER" (click)="clearBatch()">Clear Batch</a>
+                            <a ngbDropdownItem [disabled]="!haveAnyStatusER" (click)="clearStaging()">Clear Staging</a>
+                            <a ngbDropdownItem [disabled]="disableClearCacheButton" (click)="clearTableCache()">Clear Table Cache</a>
+
+                        </div>
+
+                    </span>
+
+                    </div>
+                </li>
+
+                <li class="list-inline-item float-sm-right">
+                    <label class="d-none d-sm-block"></label>
+                    <div class="custom-control custom-checkbox">
+                        <input (change)="autoRefreshChange($event)" type="checkbox" class="custom-control-input"
+                               id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1" style="vertical-align: -30%;">Auto
+                            Refresh</label>
+                    </div>
+                </li>
+
+
+            </ul>
+        </form>
+    </div>
+    <div id="batches">
+        <data-list
+                mode="manage"
+                [columnsList]="columnList"
+                [table_loader]="table_loader"
+                [datas]="incomingBatches"
+                (manageRowSelectedId)="rowSelected($event)"
+                (sortOrder)="sortEvent($event)"
+                (page)="pageNumber($event)"
+        ></data-list>
+    </div>
+
+</div>
+

@@ -1,0 +1,38 @@
+<div class="col-lg-12 manage-button clearfix">
+    <ul>
+        <li>
+            <button type="button" mat-stroked-button style="min-width:40px !important;" (click)="refresh()">
+                <i class="fas fa-sync"></i>
+            </button>
+        </li>
+        <li>
+            <button [ngClass]="buttonDisabledClass" [disabled]="disableRe" (click)="performAction('',1)" type="button"
+                    mat-stroked-button>
+                Rebuild All
+            </button>
+        </li>
+        <li>
+            <span class="verticle"></span>
+        </li>
+        <li>
+            <button [ngClass]="rebuildOrDrop" [disabled]="disableRe" (click)="performAction(this.selectedID,2)"
+                    type="button"
+                    mat-stroked-button>Rebuild
+            </button>
+        </li>
+        <li>
+            <button [ngClass]="rebuildOrDrop" [disabled]="disableDrop" (click)="performAction(this.selectedID,3)"
+                    type="button"
+                    mat-stroked-button>Drop
+            </button>
+        </li>
+
+        <li class="float-right">
+            <custom-checkbox class="float-left mr-2" (change)="showSymTriggers($event)" formId="show_sym_triggers"
+                             label="Show sym_triggers"
+                             [groupName]="installedTriggerForm"
+                             name="show_sym_triggers"></custom-checkbox>
+            <searchbox class="float-left" (searchText)="searchValue($event)"></searchbox>
+        </li>
+    </ul>
+</div>

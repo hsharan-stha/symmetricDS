@@ -1,0 +1,14 @@
+.loading-select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.loading-select::-ms-expand {
+    display: none;
+}
+
+.loader{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}

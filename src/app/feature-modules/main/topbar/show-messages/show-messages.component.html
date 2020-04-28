@@ -1,0 +1,15 @@
+<c-dialog dialogWidth="900px" text="Error Messages" [visible]="showDialog" backgroundColor="#FF9494" textColor="white"
+          topTabColor="red">
+    <div class="row">
+        <div class="w-100">
+            <div class="messages-container">
+                <app-loader *ngIf="loader"></app-loader>
+                <p *ngFor="let d of errorMessages;trackBy:trackByFn">{{d.location}}&nbsp; : &nbsp;"{{d.message}}"</p>
+            </div>
+        </div>
+    </div>
+    <div class="float-right mt-3 ofr-svg">
+        <button (click)="onCancel()" type="button" mat-stroked-button>Close</button>
+    </div>
+</c-dialog>
+

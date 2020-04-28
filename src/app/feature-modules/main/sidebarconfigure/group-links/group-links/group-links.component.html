@@ -1,0 +1,34 @@
+
+<body-title text="Configure Group Links"></body-title>
+<div class="col-12 p-0">
+
+    <app-tabhead text="Group Links"></app-tabhead>
+    <router-outlet></router-outlet>
+
+    <div class="config-body">
+
+        <app-buttonbar [createpath]="createpath"
+                       [editpath]="editpath"
+                       [deletepath]="deletepath"
+                       [buttonClass]="crudButtonClass"
+                       [selectedId]="selectedId"
+                       (searchBoxData)="searchValue($event)"
+                ></app-buttonbar>
+
+        <div class="p-3" id="group-links">
+            <data-list
+
+                    [columnsList] = "groupLinkColumns"
+                    [table_loader]="table_loader"
+                    [datas] = "groupLinkData"
+                    [filterText]="subText"
+                    [filterField]="filterField"
+                    (selectedRow)="rowSelected($event)"
+                    (sortOrder)="sortEvent($event)"
+                    (page)="pageNumber($event)"
+                    ></data-list>
+
+        </div>
+    </div>
+   
+</div>

@@ -1,0 +1,134 @@
+<c-dialog dialogWidth="1056px" text="File Trigger" [action]="button_name" [visible]="showDialog">
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="fileTriggerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+            <label for="trigger_id" class="col-sm-3 col-form-label pr-0">File trigger id<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-3">
+                <input [attr.disabled]="disabledTextBox" type="text" class="form-control form-control-sm"
+                       id="trigger_id" formControlName="trigger_id"
+                       [ngClass]="{'is-invalid' : isSubmitted && (field.trigger_id.errors?.required || field.trigger_id.errors?.maxlength || field.trigger_id.errors?.pattern)}">
+                <div *ngIf="isSubmitted && field.trigger_id.errors?.required">
+                    <small class="text-danger m-0 text-sm">Trigger ID is required</small>
+                    <br/>
+                </div>
+                <div *ngIf="isSubmitted && field.trigger_id.errors?.maxlength">
+                    <small class="text-danger m-0 text-sm">Must be less than 128 characters.</small>
+                </div>
+                <div *ngIf="isSubmitted && field.trigger_id.errors?.pattern">
+                    <small class="text-danger m-0 text-sm">Allowed characters [A-Za-z0-9_]</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="channel_id" class="col-sm-3 col-form-label pr-0">Channel<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-5">
+                <select class="form-control form-control-sm channels-form" id="channel_id"
+                        formControlName="channel_id"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.channel_id.errors }">
+                    <option>choose channel id</option>
+                    <option *ngFor="let d of channels_data" [attr.value]="d.name">{{d.name}}</option>
+                </select>
+                <div *ngIf="isSubmitted && field.channel_id.errors">
+                    <small class="text-danger m-0 text-sm">Channel id is required</small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <label for="reload_channel_id" class="col-sm-3 col-form-label pr-0">Reload channel id<small class="mandataory-icon">*</small></label>
+            <div class="col-sm-5">
+                <select class="form-control form-control-sm channels-form" id="reload_channel_id"
+                        formControlName="reload_channel_id"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.reload_channel_id.errors }">
+                    <option>choose reload channel id</option>
+                    <option *ngFor="let d of reload_channels_data" [attr.value]="d">{{d}}</option>
+                </select>
+                <div *ngIf="isSubmitted && field.reload_channel_id.errors">
+                    <small class="text-danger m-0 text-sm">Reload channel id is required</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="form-group row">
+            <label for="base_dir" class="col-sm-3 col-form-label pr-0">Base directory</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="base_dir"
+                       formControlName="base_dir">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+                <custom-checkbox formId="recurse" label="recurse" name="recurse"
+                                 [groupName]="fileTriggerForm"></custom-checkbox>
+
+            </div>
+        </div>
+
+        <div class="form-group row mt-2">
+            <label for="includes_files" class="col-sm-3 col-form-label pr-0">Includes files</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="includes_files"
+                       formControlName="includes_files">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="excludes_files" class="col-sm-3 col-form-label pr-0">Excludes files</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="excludes_files"
+                       formControlName="excludes_files">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+                <custom-checkbox formId="sync_on_create" label="Sync on create" name="sync_on_create"
+                                 [groupName]="fileTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="sync_on_modified" label="Sync on modified" name="sync_on_modified"
+                                 [groupName]="fileTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="sync_on_delete" label="Sync on delete" name="sync_on_delete"
+                                 [groupName]="fileTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="sync_on_ctl_file" label="Sync on CTL file" name="sync_on_ctl_file"
+                                 [groupName]="fileTriggerForm"></custom-checkbox>
+                <custom-checkbox formId="delete_after_sync" label="Delete after sync" name="delete_after_sync"
+                                 [groupName]="fileTriggerForm"></custom-checkbox>
+            </div>
+        </div>
+
+        <div class="form-group row mt-2">
+            <label for="before_copy_script" class="col-sm-3 col-form-label pr-0">Before copy script</label>
+            <div class="col-sm-5">
+                            <textarea rows="5" name="before_copy_script" formControlName="before_copy_script"
+                                      class="form-control form-control-sm resize-disable"
+                                      id="before_copy_script"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group row mt-2">
+            <label for="after_copy_script" class="col-sm-3 col-form-label pr-0">After copy script</label>
+            <div class="col-sm-5">
+                            <textarea rows="5" name="after_copy_script" formControlName="after_copy_script"
+                                      class="form-control form-control-sm resize-disable"
+                                      id="after_copy_script"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-8 float-right mt-3 ofr-svg">
+                <app-loader *ngIf="loader"></app-loader>
+                <button type="submit" class="mr-2" mat-stroked-button>{{button_name}}</button>
+                <button (click)="onCancel()" type="button" mat-stroked-button>Cancel</button>
+                <!--</a>-->
+            </div>
+        </div>
+    </form>
+</c-dialog>

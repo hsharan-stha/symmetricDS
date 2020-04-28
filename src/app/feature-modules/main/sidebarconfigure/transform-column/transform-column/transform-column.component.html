@@ -1,0 +1,33 @@
+
+<body-title text="Transform Column"></body-title>
+<div class="col-12 p-0">
+
+    <app-tabhead text="Transform Column"></app-tabhead>
+    <router-outlet></router-outlet>
+
+    <div class="config-body">
+
+        <app-buttonbar [createpath]="createUrl"
+                [editpath]="editUrl"
+                [deletepath]="deleteUrl"
+                [buttonClass]="crudButtonClass"
+                [selectedId]="selectedId"
+                (searchBoxData)="searchValue($event)"
+        ></app-buttonbar>
+
+        <div class="p-3">
+            <data-list
+                [columnsList] = "columnList"
+                [table_loader]="table_loader"
+                [datas] = "transfromColumnList"
+                [filterText]="subText"
+                [filterField]="filterField"
+                (selectedRow)="rowSelected($event)"
+                (sortOrder)="sortEvent($event)"
+                (page)="pageNumber($event)"
+                    ></data-list>
+        </div>
+        
+    </div>
+   
+</div>

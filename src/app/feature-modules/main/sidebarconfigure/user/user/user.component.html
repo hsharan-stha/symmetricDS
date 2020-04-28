@@ -1,0 +1,36 @@
+<body-title text="Configure Users"></body-title>
+
+<div class="col-lg-12 p-0">
+    <app-tabhead text="Users"></app-tabhead>
+    <router-outlet></router-outlet>
+    <div class="config-body" id="user">
+        <app-buttonbar
+                [createpath]="createPath"
+                [deletepath]="deletePath"
+                [editpath]="editPath"
+                [buttonClass]="crudButtonClass"
+                (searchBoxData)="search($event)"
+        ></app-buttonbar>
+
+
+        <div class="p-3">
+
+            <data-list
+
+                    [columnsList]="userColumnList"
+                    [table_loader]="table_loader"
+                    [datas]="userData"
+                    [filterText]="subText"
+                    [filterField]="filterField"
+                    (selectedRow)="rowSelected($event)"
+                    (sortOrder)="sortEvent($event)"
+                    (page)="pageNumber($event)"
+            ></data-list>
+        </div>
+
+    </div>
+</div>
+
+
+
+

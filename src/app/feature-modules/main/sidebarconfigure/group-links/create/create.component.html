@@ -1,0 +1,112 @@
+<c-dialog text="Group Links" [action]="buttonValue"  [visible]="showCreateForm" >
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="groupLinkForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+            <label for="group-id" class="col-sm-3 col-12 col-form-label pr-0">
+                Source Group Id
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+                <select id="group-id" formControlName="source_node_group_id"
+                        class="form-control form-control-sm select-with-bg"
+                        [ngClass]="{'is-invalid' : isSubmitted && field.source_node_group_id.errors }"
+                        *ngIf="nodeGroupIds; else loadingBlock ">
+                    <option value="">Choose</option>
+                    <option *ngFor="let nodeGroupId of nodeGroupIds" value="{{ nodeGroupId.name }}">
+                        {{ nodeGroupId.name }}
+                    </option>
+                </select>
+                <div *ngIf="isSubmitted && field.source_node_group_id.errors">
+                    <small class="text-danger m-0 text-sm">Source group id is required</small>
+                </div>
+           </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="data_event_action" class="col-sm-3 col-12 col-form-label pr-0">
+                Link
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+
+                <select formControlName="data_event_action" id="data_event_action"
+                        class="form-control form-control-sm select-with-bg"
+                        [ngClass]="{'is-invalid':isSubmitted && field.data_event_action.errors}"
+                        >
+                    <option value="">Choose</option>
+                    <option *ngFor="let link of links" value="{{ link.name }}">
+                        {{ link.name }}
+                    </option>
+                </select>
+
+                <div *ngIf="isSubmitted && field.data_event_action.errors">
+                    <small class="text text-danger m-0 text-sm">Link is required</small>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="target-group-id" class="col-sm-3 col-12 col-form-label pr-0">
+                Target Group Id
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+                <select formControlName="target_node_group_id" id="target-group-id"
+                        class="form-control form-control-sm select-with-bg"
+                        [ngClass]="{'is-invalid':isSubmitted && field.target_node_group_id.errors}"
+                        *ngIf="nodeGroupIds; else loadingBlock ">
+                    <option value="">Choose</option>
+                    <option *ngFor="let nodeGroupId of nodeGroupIds" value="{{ nodeGroupId.name }}">
+                        {{ nodeGroupId.name }}
+                    </option>
+                </select>
+
+                <div *ngIf="isSubmitted && field.target_node_group_id.errors">
+                    <small class="text text-danger m-0 text-sm">Target group id is required</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3 col-12"></div>
+            <div class="col-sm-9">
+
+                <custom-checkbox formId="sync_config_enabled" label="Sync Configuration" name="sync_config_enabled" [groupName]="groupLinkForm"></custom-checkbox>
+
+                <custom-checkbox formId="is_reversible" label="Reversible" name="is_reversible" [groupName]="groupLinkForm"></custom-checkbox>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-3 col-12"></div>
+            <div class="col-4 col-12">
+                <div class="float-right">
+                    <span class="save-btn position-relative">
+                        <button type="submit"  class="mr-2 position-relative" mat-stroked-button [ngClass]="isFormValid ? 'hide':''" >
+                            {{ buttonValue }}
+                            <app-loader *ngIf="loader" ></app-loader>
+                        </button>
+                    </span>
+
+                    <button type="button" (click)="onCancel()" mat-stroked-button [disabled]="isFormValid" >Cancel</button>
+                </div>
+            </div>
+             
+        </div>
+
+        <ng-template #loadingBlock>
+            <div class="position-relative" >
+                <select disabled  class="form-control form-control-sm  loading-select" >
+                    <option selected> Loading...</option>
+                </select>
+
+                <div class="loader loader--style1" title="0">
+                    <app-loader ></app-loader>
+                </div>
+            </div>
+        </ng-template>
+    </form>
+</c-dialog>

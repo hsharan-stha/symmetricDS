@@ -1,0 +1,109 @@
+
+<c-dialog text="User" [action]="buttonValue"   [visible]="showCreateForm" >
+    <div *ngIf="editloader" class="loading">
+        <app-loader></app-loader>
+    </div>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group row">
+            <label for="username" class="col-sm-3 col-12 col-form-label pr-0">
+                Username
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+                <input  id="username" formControlName="username" type="text"  class="form-control form-control-sm"
+                        [ngClass]="{'is-invalid': isSubmitted && field.username.errors}"
+                        />
+                <div *ngIf="isSubmitted && field.username.errors">
+                    <small *ngIf="field.username.errors.required" class="text text-danger">{{ "Username is required" }}</small>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row" *ngIf="buttonValue == 'Save'">
+            <label for="password" class="col-sm-3 col-12 col-form-label pr-0">
+                Password
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+                <input  id="password" formControlName="password" type="password"  class="form-control form-control-sm"
+                        [ngClass]="{'is-invalid': isSubmitted && field.password.errors}"
+                        />
+                <div *ngIf="isSubmitted && field.password.errors">
+                    <small *ngIf="field.password.errors.required" class="text text-danger">{{ "Password is required" }}</small>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="first-name" class="col-sm-3 col-12 col-form-label pr-0">
+                First Name
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+                <input  id="first-name" formControlName="first_name" type="text"  class="form-control form-control-sm"
+                        [ngClass]="{'is-invalid': isSubmitted && field.first_name.errors}"
+                        />
+                <div *ngIf="isSubmitted && field.first_name.errors">
+                    <small *ngIf="field.first_name.errors.required" class="text text-danger">{{ "First name is required" }}</small>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="last-name" class="col-sm-3 col-12 col-form-label pr-0">
+                Last Name
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+                <input  id="last-name" formControlName="last_name" type="text"  class="form-control form-control-sm"
+                        [ngClass]="{'is-invalid': isSubmitted && field.last_name.errors}"
+                        />
+                <div *ngIf="isSubmitted && field.last_name.errors">
+                    <small *ngIf="field.first_name.errors.required" class="text text-danger">{{ "Last name is required" }}</small>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="router-type" class="col-sm-3 col-12 col-form-label pr-0">
+                Role
+                <small class="mandataory-icon" >*</small>
+            </label>
+            <div class="col-sm-4 col-12">
+
+                <select id="router-type" formControlName="role_id"
+                        class="form-control form-control-sm select-with-bg"
+                        [ngClass]="{'is-invalid':isSubmitted && field.role_id.errors}"
+                        style="text-transform: uppercase;">
+
+                    <option *ngFor="let role of roles" value="{{ role.id }}">{{ role.name }}</option>
+                </select>
+
+                <div *ngIf="isSubmitted && field.role_id.errors">
+                    <small *ngIf="field.role_id.errors.required" class="text text-danger">{{ "Role is required" }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3" col-12></div>
+            <div class="col-sm-4 col-12">
+                <div class="float-right ofr-svg">
+                    <app-loader *ngIf="loader"></app-loader>
+                    <button type="submit" class="mr-2" mat-stroked-button>
+                        {{ buttonValue }}
+                    </button>
+                    <button type="button" (click)="onCancel()" mat-stroked-button>Cancel</button>
+                </div>
+            </div>
+
+            <div class="col-6"></div>
+        </div>
+
+    </form>
+</c-dialog>

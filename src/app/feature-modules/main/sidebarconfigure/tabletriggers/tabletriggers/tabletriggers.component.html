@@ -1,0 +1,32 @@
+<body-title text="Configure Table Trigger"></body-title>
+
+<!--<div style="padding: 4px 16px 4px 16px;margin-top:20px;">-->
+<div class="col-lg-12 p-0">
+    <app-tabhead text="Table Triggers"></app-tabhead>
+    <div class="config-body" id="table_trigger">
+        <app-buttonbar [createpath]="createpath" [editpath]="editpath" [deletepath]="deletepath"
+                       [selectedId]="selectedID"
+                       [buttonClass]="buttonDisabledClass"
+                       (searchBoxData)="search($event)"></app-buttonbar>
+
+        <router-outlet></router-outlet>
+        <div class="p-3">
+            <data-list [columnsList]="columnsList"
+                       [table_loader]="table_loader"
+                       [pagination]="pagination"
+                       [datas]="tableTriggerData"
+                       [filterField]="filterField"
+                       (sortOrder)="sortEvent($event)"
+                       (selectedRow)="rowClick($event)"
+                       (page)="pageNumber($event)"
+                       [filterText]="subText"></data-list>
+        </div>
+
+    </div>
+</div>
+
+<app-messagebox [message]="message"></app-messagebox>
+
+
+
+
